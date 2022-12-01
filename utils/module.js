@@ -1,5 +1,5 @@
 module.exports = {
-    ...require('./parsePokepaste'),
-    ...require('./toLowerReplaceSpace'),
-    ...require('./pokemonEmbedValue'),
+	...require('./parsePokepaste'),
+	...require('./toLowerReplaceSpace'),
+	...require('./pokemonEmbedValue'),
 };
