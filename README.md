@@ -10,7 +10,9 @@ Discord bot for analyzing pokemon teams.
 
 ### Todo
 
--   [ ] Find the meaning of life
-
+-   [ ] Print out a visual for a given team
+-   [ ] Displays typing weaknesses and strengths for a team
+-   [ ] Displays meta threats based on usage rates
+-   [ ] Suggests possible improvements for a team (mons, moves, etc.)
 
 
