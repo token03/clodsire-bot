@@ -4,16 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "node deploy-commands.js",
+    "start": "node ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@pkmn/data": "^0.7.3",
+    "@pkmn/dex": "^0.7.3",
+    "@pkmn/smogon": "^0.1.0",
     "axios": "^1.2.0",
     "cheerio": "^1.0.0-rc.12",
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.3",
+    "easy-table": "^1.2.0",
     "koffing": "^0.4.0"
   },
   "devDependencies": {

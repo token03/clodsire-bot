@@ -1,5 +1,7 @@
 module.exports = {
 	...require('./parsePokepaste'),
-	...require('./toLowerReplaceSpace'),
+	...require('./stringUtils'),
 	...require('./pokemonEmbedValue'),
+	...require('./weaknessTable'),
+	...require('./pkmnUtils'),
 };

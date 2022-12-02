@@ -1,0 +1,9 @@
+const toLowerReplaceSpaceWithDash = (str) => {
+	return str.replace(/\s+/g, '-').toLowerCase();
+};
+
+const toLowerRemoveSpace = (str) => {
+	return str.replace(/\s+/g, '').toLowerCase();
+};
+
+module.exports = { toLowerRemoveSpace, toLowerReplaceSpaceWithDash };
