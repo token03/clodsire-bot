@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { setsEmbed, errorEmbed } = require('../pages/module');
+const wait = require('node:timers/promises').setTimeout;
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -35,10 +36,11 @@ module.exports = {
 		}
 		else {
 			try {
-				await interaction.reply(setsEmbed(pokemon, format, gen));
+				const embed = await setsEmbed(pokemon, format, gen);
+				await interaction.reply(embed);
 			}
 			catch (err) {
-				await interaction.reply(errorEmbed(err));
+				await interaction.editReply(errorEmbed(err));
 			}
 		}
 	},
