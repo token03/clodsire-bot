@@ -4,17 +4,57 @@ const { Generations } = require('@pkmn/data');
 const { returnPokemonType } = require('./pkmnUtils');
 const { typeEmoji } = require('../data/module');
 
-
 const teamWeaknessTable = (team) => {
-	const gens = new Generations(Dex);
-	console.log(Dex.forGen(9).types.get('Normal'));
-	console.log(gens.get(9).types.totalEffectiveness('Normal', ['Rock', 'Steel']));
-	return team.name;
+	const tableData = [
+		{ type: 'Bug', weakTo: true },
+		{ type: 'Dark', weakTo: true },
+		{ type: 'Dragon', weakTo: true },
+		{ type: 'Electric', weakTo: true },
+		{ type: 'Fairy', weakTo: true },
+		{ type: 'Fighting', weakTo: true },
+		{ type: 'Fire', weakTo: true },
+		{ type: 'Flying', weakTo: true },
+		{ type: 'Ghost', weakTo: true },
+		{ type: 'Grass', weakTo: true },
+		{ type: 'Ground', weakTo: true },
+		{ type: 'Ice', weakTo: true },
+		{ type: 'Normal', weakTo: true },
+		{ type: 'Poison', weakTo: true },
+		{ type: 'Psychic', weakTo: true },
+		{ type: 'Rock', weakTo: true },
+		{ type: 'Steel', weakTo: true },
+		{ type: 'Water', weakTo: true },
+	];
+
+	tableData.forEach(value => {
+		team.forEach(pokemon => {
+			const gens = new Generations(Dex);
+			const types = returnPokemonType(pokemon);
+			const num = gens.get(9).types.totalEffectiveness(value.type, types);
+			if (num === 0 || num === 0.5 || num === 0.25) {
+				value.weakTo = false;
+			}
+		});
+	});
+
+	let returnString = '';
+
+	tableData.forEach(value => {
+		if (value.weakTo) {
+			returnString += value.type + ' ';
+		}
+	});
+
+	if (returnString.length === 0) returnString = 'Your team has no obvious type weaknesses!';
+
+	return '```Weaknesses: ' + returnString + '```';
 };
 
 const pokemonWeaknessTable = (pokemon) => {
+	const t = new Table;
 	const gens = new Generations(Dex);
 	const types = returnPokemonType(pokemon);
+
 	const tableData = [
 		{ type: 'Bug', effectivess: 0 },
 		{ type: 'Dark', effectivess: 0 },
@@ -38,12 +78,9 @@ const pokemonWeaknessTable = (pokemon) => {
 
 	tableData.forEach(value => {
 		const num = gens.get(9).types.totalEffectiveness(value.type, types);
-		switch (value) {
-		case 3:
-			value.effectivess = 'immune';
-			break;
+		switch (num) {
 		case 0:
-			value.effectivess = 'neutral';
+			value.effectivess = 'immune';
 			break;
 		default:
 			value.effectivess = `${num}x`;
@@ -51,21 +88,21 @@ const pokemonWeaknessTable = (pokemon) => {
 		}
 	});
 
-	const t = new Table;
-
 	tableData.forEach((type) => {
-		t.cell('Type', type.type);
-		t.cell('Modify', type.effectivess);
-		t.newRow();
+		if (type.effectivess != '1x') {
+			t.cell('Type', type.type);
+			t.cell('Modify', type.effectivess);
+			t.newRow();
+		}
 	});
 
-	let str = '';
+	let returnString = '';
 
 	types.forEach(type => {
-		str += `<:${type}:${typeEmoji.get(type)}> `;
+		returnString += `<:${type}:${typeEmoji.get(type)}> `;
 	});
 
-	return str + '\n```' + t.toString() + '```';
+	return returnString + '\n```' + t.toString() + '```';
 };
 
 module.exports = {

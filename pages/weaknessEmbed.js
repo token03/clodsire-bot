@@ -16,7 +16,7 @@ const weaknessEmbed = (json) => {
 
 	embed.addFields({
 		name: 'Overview',
-		value: teamWeaknessTable(data),
+		value: teamWeaknessTable(data.pokemon),
 	});
 
 	return {
