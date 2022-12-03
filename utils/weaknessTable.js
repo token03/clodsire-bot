@@ -47,7 +47,7 @@ const teamWeaknessTable = (team) => {
 
 	if (returnString.length === 0) returnString = 'Your team has no obvious type weaknesses!';
 
-	return '```Weaknesses: ' + returnString + '```';
+	return '```' + returnString + '```';
 };
 
 const pokemonWeaknessTable = (pokemon) => {

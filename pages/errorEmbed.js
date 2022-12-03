@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 
 const errorEmbed = (err) => {
-	const embed = new EmbedBuilder().setColor(0xeb3434).setTitle('Something went wrong :(').setDescription(`${err.stack}\n${err.name}\n${err.message}`);
+	const embed = new EmbedBuilder().setColor(0xeb3434).setTitle('Something went wrong :(').setDescription(err);
 	return {
 		embeds: [embed],
 		ephemeral: false,
