@@ -2,6 +2,7 @@ const Table = require('easy-table');
 const { Dex } = require('@pkmn/dex');
 const { Generations } = require('@pkmn/data');
 const { returnPokemonType } = require('./pkmnUtils');
+const { typeEmoji } = require('../data/module');
 
 
 const teamWeaknessTable = (team) => {
@@ -58,7 +59,13 @@ const pokemonWeaknessTable = (pokemon) => {
 		t.newRow();
 	});
 
-	return '```' + t.toString() + '```';
+	let str = '';
+
+	types.forEach(type => {
+		str += `<:${type}:${typeEmoji.get(type)}> `;
+	});
+
+	return str + '\n```' + t.toString() + '```';
 };
 
 module.exports = {

@@ -4,4 +4,5 @@ module.exports = {
 	...require('./pokemonEmbedValue'),
 	...require('./weaknessTable'),
 	...require('./pkmnUtils'),
+	...require('./discordUtils'),
 };
