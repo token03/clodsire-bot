@@ -1,7 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { setsEmbed, errorEmbed } = require('../pages/module');
-const wait = require('node:timers/promises').setTimeout;
-
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('smogonset')
@@ -40,7 +38,7 @@ module.exports = {
 				await interaction.reply(embed);
 			}
 			catch (err) {
-				await interaction.editReply(errorEmbed(err));
+				await interaction.reply(errorEmbed(err));
 			}
 		}
 	},

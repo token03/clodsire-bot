@@ -3,4 +3,5 @@ module.exports = {
 	...require('./teamEmbed'),
 	...require('./weaknessEmbed'),
 	...require('./setsEmbed'),
+	...require('./countersEmbed'),
 };
