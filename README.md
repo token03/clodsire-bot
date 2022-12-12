@@ -21,7 +21,7 @@ Takes in an input pokepast.es and returns a visual display for each Pokemon.
 ### Weaknesses
 ```/weaknesses```
 
-Takes in an input pokepast.es and returns the weaknesses for each Pokemon, and overall weaknesses for each Pokemon and overall weaknesses for a team.
+Takes in an input pokepast.es and returns the weaknesses for each Pokemon and overall weaknesses for a team.
 
 ### Counters
 ```/counters```
@@ -29,7 +29,7 @@ Takes in an input pokepast.es and returns the weaknesses for each Pokemon, and o
 Takes in an a Pokemon, generation and format and returns a list of popular counters.
 
 
-### Todo
+## Todo
 
 -   [ ] Print out a visual for a given team
 -   [ ] Displays typing weaknesses and strengths for a team
