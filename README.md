@@ -6,7 +6,28 @@
 
 <img src="https://cdn.discordapp.com/attachments/912584888148975666/1047806076315254884/image.png" 
 alt="clodsire-bot" border="0"> :thumbsup: <br>
-Discord bot for analyzing pokemon teams.
+a discord bot for analyzing Pokemon teams based on the usage statistics and typing coverages
+
+## Commands
+* [Display](#display)
+* [Weaknesses](#weaknesses)
+* [Counters](#counters)
+
+### Display
+```/display```
+
+Takes in an input pokepast.es and returns a visual display for each Pokemon.
+
+### Weaknesses
+```/weaknesses```
+
+Takes in an input pokepast.es and returns the weaknesses for each Pokemon, and overall weaknesses for each Pokemon and overall weaknesses for a team.
+
+### Counters
+```/counters```
+
+Takes in an a Pokemon, generation and format and returns a list of popular counters.
+
 
 ### Todo
 
