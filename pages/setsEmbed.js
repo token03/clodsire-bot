@@ -20,16 +20,16 @@ const setsEmbed = async (pokemon, format, gen) => {
 	};
 };
 
-const printSet = set => {
+function printSet(set) {
 	let returnString = '';
 	const counters = set['counters'];
 	if (Object.keys(counters).length === 0) return 'No avalaible counters.';
 
 	Object.keys(counters).forEach(value => {
 		console.log(value);
-		returnString += value + ': ' + JSON.stringify(counters) + '\n';
+		returnString += value + ': ' + JSON.stringify(counters[value]) + '\n';
 	});
 	return returnString;
-};
+}
 
 module.exports = { setsEmbed };

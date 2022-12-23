@@ -19,4 +19,12 @@ const typeEmoji = new Map([
 	['Water', '1048168738324746240'],
 ]);
 
-module.exports = { typeEmoji };
+const emojiString = (types) => {
+	let returnString = '';
+	types.forEach(type => {
+		returnString += `<:${type}:${typeEmoji.get(type)}> `;
+	});
+	return '\n' + returnString;
+};
+
+module.exports = { typeEmoji, emojiString };
