@@ -1,5 +1,10 @@
 const { EmbedBuilder } = require('discord.js');
-const { teamWeaknessTable, pokemonWeaknessTable } = require('../utils/module');
+const {
+	fetchTeamWeaknessTable,
+	fetchPokemonWeaknessTable,
+	printTeamWeaknessTable,
+	printPokemonWeaknessTable,
+} = require('../utils/module');
 
 const weaknessEmbed = (json) => {
 	const data = JSON.parse(json).teams[0];
@@ -9,14 +14,14 @@ const weaknessEmbed = (json) => {
 	data.pokemon.forEach((pokemon) => {
 		embed.addFields({
 			name: pokemon.name,
-			value: pokemonWeaknessTable(pokemon),
+			value: printPokemonWeaknessTable(fetchPokemonWeaknessTable(pokemon), pokemon),
 			inline: true,
 		});
 	});
 
 	embed.addFields({
 		name: 'Team Weaknesses:',
-		value: teamWeaknessTable(data.pokemon),
+		value: printTeamWeaknessTable(fetchTeamWeaknessTable(data.pokemon)),
 	});
 
 	return {

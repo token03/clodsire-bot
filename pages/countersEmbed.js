@@ -7,12 +7,9 @@ const fetch = require('cross-fetch');
 
 const countersEmbed = async (pokemon, gen) => {
 	pokemon = capitalizeTheFirstLetterOfEachWord(toLowerReplaceSpaceWithDash(pokemon));
-	const gens = new Generations(Dex);
-	const smogon = new Smogon(fetch, true);
-	const set = await smogon.stats(gens.get(gen), pokemon, Smogon.format(gens.get(gen), pokemon));
 	const embed = new EmbedBuilder()
 		.setTitle('Counters for ' + pokemon)
-		.setDescription(printSet(set))
+		.setDescription(printCounters(await fetchCounters(pokemon, gen)))
 		.setThumbnail(`https://play.pokemonshowdown.com/sprites/bw/${pokemon.toLowerCase()}.png`);
 	return {
 		embeds: [embed],
@@ -20,16 +17,22 @@ const countersEmbed = async (pokemon, gen) => {
 	};
 };
 
-function printSet(set) {
-	let returnString = '';
-	const countersList = set['counters'];
-	if (Object.keys(countersList).length === 0) return 'No avalaible counters.';
+const fetchCounters = async (pokemon, gen) => {
+	const gens = new Generations(Dex);
+	const smogon = new Smogon(fetch, true);
+	const data = await smogon.stats(gens.get(gen), pokemon, Smogon.format(gens.get(gen), pokemon));
+	return data['counters'];
+};
 
-	Object.keys(countersList).forEach(value => {
+const printCounters = (counters) => {
+	let returnString = '';
+	if (Object.keys(counters).length === 0) return 'No avalaible counters.';
+
+	Object.keys(counters).forEach(value => {
 		console.log(value);
-		returnString += value + ': ' + JSON.stringify(countersList[value]) + '\n';
+		returnString += value + ': ' + JSON.stringify(counters[value]) + '\n';
 	});
 	return returnString;
-}
+};
 
 module.exports = { countersEmbed };

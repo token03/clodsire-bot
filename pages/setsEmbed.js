@@ -9,7 +9,7 @@ const setsEmbed = async (pokemon, gen) => {
 	pokemon = capitalizeTheFirstLetterOfEachWord(toLowerReplaceSpaceWithDash(pokemon));
 	const embed = new EmbedBuilder()
 		.setTitle('Smogon Set for ' + pokemon)
-		.setDescription(await printSet(pokemon, gen))
+		.setDescription(printSet(await fetchSet(pokemon, gen)))
 		.setThumbnail(`https://play.pokemonshowdown.com/sprites/bw/${pokemon.toLowerCase()}.png`);
 	return {
 		embeds: [embed],
@@ -17,7 +17,7 @@ const setsEmbed = async (pokemon, gen) => {
 	};
 };
 
-const printSet = async (pokemon, gen) => {
+const fetchSet = async (pokemon, gen) => {
 	const gens = new Generations(Dex);
 	const smogon = new Smogon(fetch, true);
 	let setData;
@@ -29,11 +29,13 @@ const printSet = async (pokemon, gen) => {
 			setData = await smogon.sets(gens.get(gen), pokemon, genFormat);
 			setData.map(function(item) {
 				delete item.gigantamax;
+				if (item.item == 'Choice Specs') item.name = 'Special Purely Offensive';
+				if (item.item == 'Choice Band') item.name = 'Physical Purely Offensive';
 				delete item.species;
 				return item;
 			});
 			console.log(setData);
-			if (setData.length != 0) return '```' + genFormat + JSON.stringify(setData, null, 3) + '```';
+			if (setData.length != 0) return { genFormat: genFormat, data: setData };
 			gen--;
 		}
 		catch (err) {
@@ -42,7 +44,14 @@ const printSet = async (pokemon, gen) => {
 		}
 	}
 
-	return 'No Set Data Found';
+	return {};
+};
+
+const printSet = (set) => {
+	let returnString = '';
+	returnString += set.genFormat + '\n';
+	returnString += '```' + JSON.stringify(set.data, undefined, 2) + '```';
+	return returnString;
 };
 
 module.exports = { setsEmbed };

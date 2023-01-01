@@ -4,7 +4,7 @@ const { Generations } = require('@pkmn/data');
 const { returnPokemonType } = require('./pkmnUtils');
 const { emojiString } = require('../data/module');
 
-const teamWeaknessTable = (team) => {
+const fetchTeamWeaknessTable = (team) => {
 	const tableData = [
 		{ type: 'Bug', weakTo: true },
 		{ type: 'Dark', weakTo: true },
@@ -37,9 +37,13 @@ const teamWeaknessTable = (team) => {
 		});
 	});
 
+	return tableData;
+};
+
+const printTeamWeaknessTable = (table) => {
 	let returnString = '';
 
-	tableData.forEach(value => {
+	table.forEach(value => {
 		if (value.weakTo) {
 			returnString += value.type + ' ';
 		}
@@ -50,8 +54,7 @@ const teamWeaknessTable = (team) => {
 	return '```' + returnString + '```';
 };
 
-const pokemonWeaknessTable = (pokemon) => {
-	const t = new Table;
+const fetchPokemonWeaknessTable = (pokemon) => {
 	const gens = new Generations(Dex);
 	const types = returnPokemonType(pokemon);
 
@@ -88,7 +91,14 @@ const pokemonWeaknessTable = (pokemon) => {
 		}
 	});
 
-	tableData.forEach((type) => {
+	return tableData;
+};
+
+const printPokemonWeaknessTable = (table, pokemon) => {
+	const t = new Table;
+	const types = returnPokemonType(pokemon);
+
+	table.forEach((type) => {
 		if (type.effectivess != '1x') {
 			t.cell('Type', type.type);
 			t.cell('Modify', type.effectivess);
@@ -104,6 +114,8 @@ const pokemonWeaknessTable = (pokemon) => {
 };
 
 module.exports = {
-	teamWeaknessTable,
-	pokemonWeaknessTable,
+	fetchTeamWeaknessTable,
+	fetchPokemonWeaknessTable,
+	printTeamWeaknessTable,
+	printPokemonWeaknessTable,
 };
