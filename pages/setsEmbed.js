@@ -20,17 +20,29 @@ const setsEmbed = async (pokemon, gen) => {
 const printSet = async (pokemon, gen) => {
 	const gens = new Generations(Dex);
 	const smogon = new Smogon(fetch, true);
-	const setData = await smogon.sets(gens.get(gen), pokemon, Smogon.format(gens.get(gen), pokemon));
-	setData.map(function(item) {
-		delete item.gigantamax;
-		return item;
-	});
-	let returnString = JSON.stringify(setData, null, 3);
-	if (returnString.length == 2) {
-		returnString = 'Set Data Not Found';
+	let setData;
+	let looping = true;
+
+	while (looping) {
+		try {
+			const genFormat = Smogon.format(gens.get(gen), pokemon);
+			setData = await smogon.sets(gens.get(gen), pokemon, genFormat);
+			setData.map(function(item) {
+				delete item.gigantamax;
+				delete item.species;
+				return item;
+			});
+			console.log(setData);
+			if (setData.length != 0) return '```' + genFormat + JSON.stringify(setData, null, 3) + '```';
+			gen--;
+		}
+		catch (err) {
+			if (gen > 0) { gen--; }
+			else { looping = false; }
+		}
 	}
-	console.log(returnString);
-	return '```' + returnString + '```';
+
+	return 'No Set Data Found';
 };
 
 module.exports = { setsEmbed };

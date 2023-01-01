@@ -27,13 +27,12 @@ Takes in an input pokepast.es and returns the weaknesses for each Pokemon and ov
 ### Counters
 ```/counters```
 
-Takes in an a Pokemon and generation and returns a list of popular counters.
+Returns a list of popular counters for a given Pokemon in a given generation.
 
 ### Sets
 ```/sets```
 
-Takes in an a Pokemon and generation and returns suggested sets for the pokemon in respective gen.
-
+Returns a list of possible sets for a given Pokemon.
 
 ## Todo
 

@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { countersEmbed, errorEmbed } = require('../pages/module');
-const { pokemonNames } = require('../data/module');
-const { capitalizeTheFirstLetterOfEachWord } = require('../utils/module');
+const { autoCompletePokemon } = require('../utils/module');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -19,18 +18,7 @@ module.exports = {
 				.setDescription('The chosen generation')
 				.setRequired(true)),
 	async autocomplete(interaction) {
-		const focusedOption = interaction.options.getFocused(true);
-		let choices;
-
-		if (focusedOption.name === 'pokemon') {
-			choices = pokemonNames;
-		}
-
-		let filtered = choices.filter(choice => choice.startsWith(focusedOption.value.toLowerCase()));
-		filtered = filtered.slice(0, 24);
-		await interaction.respond(
-			filtered.map(choice => ({ name: capitalizeTheFirstLetterOfEachWord(choice), value: capitalizeTheFirstLetterOfEachWord(choice) })),
-		);
+		await autoCompletePokemon(interaction);
 	},
 	async execute(interaction) {
 		const gen = interaction.options.getInteger('gen');
