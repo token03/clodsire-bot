@@ -5,11 +5,11 @@ const { Generations } = require ('@pkmn/data');
 const { Smogon } = require ('@pkmn/smogon');
 const fetch = require('cross-fetch');
 
-const countersEmbed = async (pokemon, format, gen) => {
+const countersEmbed = async (pokemon, gen) => {
 	pokemon = capitalizeTheFirstLetterOfEachWord(toLowerReplaceSpaceWithDash(pokemon));
 	const gens = new Generations(Dex);
 	const smogon = new Smogon(fetch, true);
-	const set = await smogon.stats(gens.get(gen), pokemon, `gen${gen}${format}`);
+	const set = await smogon.stats(gens.get(gen), pokemon, Smogon.format(gens.get(gen), pokemon));
 	const embed = new EmbedBuilder()
 		.setTitle('Counters for ' + pokemon)
 		.setDescription(printSet(set))

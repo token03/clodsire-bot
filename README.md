@@ -27,18 +27,18 @@ Takes in an input pokepast.es and returns the weaknesses for each Pokemon and ov
 ### Counters
 ```/counters```
 
-Takes in an a Pokemon, generation and format and returns a list of popular counters.
+Takes in an a Pokemon and generation and returns a list of popular counters.
 
 ### Sets
 ```/sets```
 
-Takes in an a Pokemon, generation and format and returns suggested sets for the pokemon in respective gen-format.
+Takes in an a Pokemon and generation and returns suggested sets for the pokemon in respective gen.
 
 
 ## Todo
 
--   [ ] Print out a visual for a given team
--   [ ] Displays typing weaknesses and strengths for a team
+-   [x] Print out a visual for a given team
+-   [x] Displays typing weaknesses and strengths for a team
 -   [ ] Displays meta threats based on usage rates
 -   [ ] Suggests possible improvements for a team (mons, moves, etc.)
 

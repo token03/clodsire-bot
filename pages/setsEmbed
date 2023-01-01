@@ -5,11 +5,11 @@ const { Generations } = require ('@pkmn/data');
 const { Smogon } = require ('@pkmn/smogon');
 const fetch = require('cross-fetch');
 
-const setsEmbed = async (pokemon, format, gen) => {
+const setsEmbed = async (pokemon, gen) => {
 	pokemon = capitalizeTheFirstLetterOfEachWord(toLowerReplaceSpaceWithDash(pokemon));
 	const embed = new EmbedBuilder()
 		.setTitle('Smogon Set for ' + pokemon)
-		.setDescription(await printSet(pokemon, gen, format))
+		.setDescription(await printSet(pokemon, gen))
 		.setThumbnail(`https://play.pokemonshowdown.com/sprites/bw/${pokemon.toLowerCase()}.png`);
 	return {
 		embeds: [embed],
@@ -17,10 +17,10 @@ const setsEmbed = async (pokemon, format, gen) => {
 	};
 };
 
-const printSet = async (pokemon, gen, format) => {
+const printSet = async (pokemon, gen) => {
 	const gens = new Generations(Dex);
 	const smogon = new Smogon(fetch, true);
-	const setData = await smogon.sets(gens.get(gen), pokemon, `gen${gen}${format}`);
+	const setData = await smogon.sets(gens.get(gen), pokemon, Smogon.format(gens.get(gen), pokemon));
 	setData.map(function(item) {
 		delete item.gigantamax;
 		return item;
@@ -29,6 +29,7 @@ const printSet = async (pokemon, gen, format) => {
 	if (returnString.length == 2) {
 		returnString = 'Set Data Not Found';
 	}
+	console.log(returnString);
 	return '```' + returnString + '```';
 };
 
