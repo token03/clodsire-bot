@@ -1,7 +1,7 @@
 module.exports = {
 	...require('./errorEmbed'),
-	...require('./teamEmbed'),
+	...require('./displayEmbed'),
 	...require('./weaknessEmbed'),
-	...require('./setsEmbed'),
 	...require('./countersEmbed'),
+	...require('./setsEmbed'),
 };

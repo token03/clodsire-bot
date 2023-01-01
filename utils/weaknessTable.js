@@ -31,7 +31,7 @@ const teamWeaknessTable = (team) => {
 			const gens = new Generations(Dex);
 			const types = returnPokemonType(pokemon);
 			const num = gens.get(9).types.totalEffectiveness(value.type, types);
-			if (num === 0 || num === 0.5 || num === 0.25) {
+			if (num === 0.5 || num === 0.25) {
 				value.weakTo = false;
 			}
 		});

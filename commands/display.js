@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { parsePokepaste } = require('../utils/module');
-const { teamEmbed } = require('../pages/module');
+const { displayEmbed } = require('../pages/module');
 require('koffing').Koffing;
 
 module.exports = {
@@ -15,6 +15,6 @@ module.exports = {
 	async execute(interaction) {
 		const parsedTeam = await parsePokepaste(interaction.options.getString('input'));
 		console.log(parsedTeam.toShowdown());
-		await interaction.reply(teamEmbed(parsedTeam.toJson()));
+		await interaction.reply(displayEmbed(parsedTeam.toJson()));
 	},
 };

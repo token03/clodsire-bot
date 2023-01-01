@@ -1,16 +1,14 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { parsePokepaste } = require('../utils/module');
-const { countersEmbed } = require('../pages/module');
-require('koffing').Koffing;
+const { countersEmbed, errorEmbed } = require('../pages/module');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('counters')
-		.setDescription('Shows common counters for a given team')
+		.setDescription('Shows smogon sets for a given generation and format')
 		.addStringOption(option =>
 			option
-				.setName('input')
-				.setDescription('The input Pokepaste')
+				.setName('pokemon')
+				.setDescription('The input pokemon')
 				.setRequired(true))
 		.addIntegerOption(option =>
 			option
@@ -26,10 +24,26 @@ module.exports = {
 					{ name: 'Ubers', value: 'ubers' },
 					{ name: 'Overused', value: 'ou' },
 					{ name: 'Underused', value: 'uu' },
-					{ name: 'Rarely Used', value: 'ru' })),
+					{ name: 'Rarely Used', value: 'ru' },
+					{ name: 'Zever Used', value: 'zu' },
+					{ name: 'Pungently Used', value: 'pu' },
+					{ name: 'Untiered', value: 'untiered' },
+				)),
 	async execute(interaction) {
-		const parsedTeam = await parsePokepaste(interaction.options.getString('input'));
-		console.log(parsedTeam.toShowdown());
-		await interaction.reply(countersEmbed(parsedTeam.toJson()));
+		const gen = interaction.options.getInteger('gen');
+		const pokemon = interaction.options.getString('pokemon');
+		const format = interaction.options.getString('format');
+		if (gen > 9 || gen < 1) {
+			await interaction.reply(errorEmbed('Invalid Generation'));
+		}
+		else {
+			try {
+				const embed = await countersEmbed(pokemon, format, gen);
+				await interaction.reply(embed);
+			}
+			catch (err) {
+				await interaction.reply(errorEmbed(err));
+			}
+		}
 	},
 };

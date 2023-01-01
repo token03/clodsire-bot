@@ -5,13 +5,14 @@
 # Clodsire Bot (Work in Progress)
 
 <img src="https://cdn.discordapp.com/attachments/912584888148975666/1047806076315254884/image.png" 
-alt="clodsire-bot" border="0"> :thumbsup: <br>
+alt="clodsire-bot" border="0"> <br>
 a discord bot for analyzing Pokemon teams based on the usage statistics and typing coverages
 
 ## Commands
 * [Display](#display)
 * [Weaknesses](#weaknesses)
 * [Counters](#counters)
+* [Sets](#sets)
 
 ### Display
 ```/display```
@@ -27,6 +28,11 @@ Takes in an input pokepast.es and returns the weaknesses for each Pokemon and ov
 ```/counters```
 
 Takes in an a Pokemon, generation and format and returns a list of popular counters.
+
+### Sets
+```/sets```
+
+Takes in an a Pokemon, generation and format and returns suggested sets for the pokemon in respective gen-format.
 
 
 ## Todo

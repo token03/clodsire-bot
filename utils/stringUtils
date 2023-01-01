@@ -10,4 +10,13 @@ function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-module.exports = { toLowerRemoveSpace, toLowerReplaceSpaceWithDash, capitalizeFirstLetter };
+function capitalizeTheFirstLetterOfEachWord(words) {
+	const separateWord = words.toLowerCase().split('-');
+	for (let i = 0; i < separateWord.length; i++) {
+		separateWord[i] = separateWord[i].charAt(0).toUpperCase() +
+		separateWord[i].substring(1);
+	}
+	return separateWord.join('-');
+}
+
+module.exports = { toLowerRemoveSpace, toLowerReplaceSpaceWithDash, capitalizeFirstLetter, capitalizeTheFirstLetterOfEachWord };

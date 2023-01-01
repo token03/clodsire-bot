@@ -1,13 +1,15 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { setsEmbed, errorEmbed } = require('../pages/module');
+require('koffing').Koffing;
+
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('smogonset')
-		.setDescription('Shows smogon sets for a given generation and format')
+		.setName('sets')
+		.setDescription('Shows common counters for a given team')
 		.addStringOption(option =>
 			option
 				.setName('pokemon')
-				.setDescription('The input pokemon')
+				.setDescription('The input Pokemon')
 				.setRequired(true))
 		.addIntegerOption(option =>
 			option
@@ -24,6 +26,10 @@ module.exports = {
 					{ name: 'Overused', value: 'ou' },
 					{ name: 'Underused', value: 'uu' },
 					{ name: 'Rarely Used', value: 'ru' },
+					{ name: 'Never Used', value: 'nu' },
+					{ name: 'PU', value: 'pu' },
+					{ name: 'ZU', value: 'zu' },
+					{ name: 'Untiered', value: 'untiered' },
 				)),
 	async execute(interaction) {
 		const gen = interaction.options.getInteger('gen');
