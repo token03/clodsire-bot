@@ -1,12 +1,12 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { setsEmbed, errorEmbed } = require('../pages/module');
+const { statsEmbed, errorEmbed } = require('../pages/module');
 const { autoCompletePokemon } = require('../utils/module');
 require('koffing').Koffing;
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('sets')
-		.setDescription('Shows suggested sets for a given Pokemon')
+		.setName('stats')
+		.setDescription('Shows usage stats for a given Pokemon')
 		.addStringOption(option =>
 			option
 				.setName('input')
@@ -26,9 +26,9 @@ module.exports = {
 	async execute(interaction) {
 		let gen = interaction.options.getInteger('gen');
 		if (!gen) gen = 9;
-		const pokemon = interaction.options.getString('input');
+		const pokemon = interaction.options.getString('pokemon');
 		try {
-			const embed = await setsEmbed(pokemon, gen);
+			const embed = await statsEmbed(pokemon, gen);
 			await interaction.reply(embed);
 		}
 		catch (err) {

@@ -22,7 +22,7 @@ Takes in an input pokepast.es and returns a visual display for each Pokemon.
 ### Weaknesses
 ```/weaknesses```
 
-Takes in an input pokepast.es and returns the weaknesses for each Pokemon and overall weaknesses for a team.
+Takes in an input pokepast.es or pokemon and returns the type weaknesses for the team and/or individual pokemon(s)
 
 ### Counters
 ```/counters```

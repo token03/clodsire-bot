@@ -26,7 +26,7 @@ const returnPokemonType = (pokemon) => {
 	let gen = 9;
 	while (trying) {
 		try {
-			return gens.get(gen).species.get(pokemon.name).types;
+			return gens.get(gen).species.get(pokemon).types;
 		}
 		catch {
 			gen -= 1;
@@ -43,7 +43,7 @@ const autoCompletePokemon = async (interaction) => {
 	const focusedOption = interaction.options.getFocused(true);
 	let choices;
 
-	if (focusedOption.name === 'pokemon') {
+	if (focusedOption.name === 'input') {
 		choices = pokemonNames;
 	}
 

@@ -8,7 +8,7 @@ module.exports = {
 		.setDescription('Shows smogon sets for a given generation')
 		.addStringOption(option =>
 			option
-				.setName('pokemon')
+				.setName('input')
 				.setDescription('The input pokemon')
 				.setRequired(true)
 				.setAutocomplete(true))
@@ -22,7 +22,7 @@ module.exports = {
 	},
 	async execute(interaction) {
 		const gen = interaction.options.getInteger('gen');
-		const pokemon = interaction.options.getString('pokemon');
+		const pokemon = interaction.options.getString('input');
 		if (gen > 9 || gen < 1) {
 			await interaction.reply(errorEmbed('Invalid Generation'));
 		}

@@ -4,9 +4,12 @@ const {
 	fetchPokemonWeaknessTable,
 	printTeamWeaknessTable,
 	printPokemonWeaknessTable,
+	capitalizeTheFirstLetterOfEachWord,
+	toLowerReplaceSpaceWithDash,
+	fetchPokemonSprite,
 } = require('../utils/module');
 
-const weaknessEmbed = (json) => {
+const teamWeaknessEmbed = (json) => {
 	const data = JSON.parse(json).teams[0];
 	const embed = new EmbedBuilder()
 		.setTitle('Weakness');
@@ -14,7 +17,7 @@ const weaknessEmbed = (json) => {
 	data.pokemon.forEach((pokemon) => {
 		embed.addFields({
 			name: pokemon.name,
-			value: printPokemonWeaknessTable(fetchPokemonWeaknessTable(pokemon), pokemon),
+			value: printPokemonWeaknessTable(fetchPokemonWeaknessTable(pokemon.name), pokemon.name),
 			inline: true,
 		});
 	});
@@ -30,4 +33,22 @@ const weaknessEmbed = (json) => {
 	};
 };
 
-module.exports = { weaknessEmbed };
+const pokemonWeaknessEmbed = (pokemon) => {
+	pokemon = capitalizeTheFirstLetterOfEachWord(toLowerReplaceSpaceWithDash(pokemon));
+	const embed = new EmbedBuilder()
+		.setTitle('Weaknesses for ' + pokemon)
+		.setThumbnail(fetchPokemonSprite(pokemon.toLowerCase(), 'gen5ani'));
+
+	embed.addFields({
+		name: pokemon,
+		value: printPokemonWeaknessTable(fetchPokemonWeaknessTable(pokemon), pokemon),
+		inline: true,
+	});
+
+	return {
+		embeds: [embed],
+		ephemeral: false,
+	};
+};
+
+module.exports = { teamWeaknessEmbed, pokemonWeaknessEmbed };
