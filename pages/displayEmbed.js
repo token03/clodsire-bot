@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { toLowerReplaceSpaceWithDash, toLowerRemoveSpace, returnPokemonType } = require('../utils/module');
+const { toLowerReplaceSpaceWithDash, toLowerRemoveSpace, returnPokemonType, fetchPokemonSprite } = require('../utils/module');
 const { emojiString } = require('../data/module');
 
 const displayEmbed = (json) => {
@@ -7,7 +7,7 @@ const displayEmbed = (json) => {
 	const embeds = [];
 	data.pokemon.forEach((pokemon) => {
 		const embed = new EmbedBuilder()
-			.setImage(`https://www.smogon.com/dex/media/sprites/xy/${toLowerReplaceSpaceWithDash(pokemon.name)}.gif`)
+			.setImage(fetchPokemonSprite(toLowerReplaceSpaceWithDash(pokemon.name, 6)))
 			.setThumbnail(`https://www.serebii.net/itemdex/sprites/${toLowerRemoveSpace(pokemon.item)}.png`)
 			.addFields({
 				name: (pokemon.nickname == undefined ? pokemon.name : `${pokemon.nickname} (${pokemon.name})`) + emojiString(returnPokemonType(pokemon)),

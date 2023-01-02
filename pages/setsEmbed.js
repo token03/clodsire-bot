@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { capitalizeTheFirstLetterOfEachWord, toLowerReplaceSpaceWithDash } = require('../utils/module');
+const { capitalizeTheFirstLetterOfEachWord, toLowerReplaceSpaceWithDash, fetchPokemonSprite } = require('../utils/module');
 const { Dex } = require('@pkmn/dex');
 const { Generations } = require ('@pkmn/data');
 const { Smogon } = require ('@pkmn/smogon');
@@ -10,7 +10,7 @@ const setsEmbed = async (pokemon, gen) => {
 	const embed = new EmbedBuilder()
 		.setTitle('Smogon Set for ' + pokemon)
 		.setDescription(printSet(await fetchSet(pokemon, gen)))
-		.setThumbnail(`https://play.pokemonshowdown.com/sprites/bw/${pokemon.toLowerCase()}.png`);
+		.setThumbnail(fetchPokemonSprite(pokemon.toLowerCase(), 'gen5ani'));
 	return {
 		embeds: [embed],
 		ephemeral: false,
@@ -29,13 +29,17 @@ const fetchSet = async (pokemon, gen) => {
 			setData = await smogon.sets(gens.get(gen), pokemon, genFormat);
 			setData.map(function(item) {
 				delete item.gigantamax;
-				if (item.item == 'Choice Specs') item.name = 'Special Purely Offensive';
-				if (item.item == 'Choice Band') item.name = 'Physical Purely Offensive';
+				switch (item.item) {
+				case 'Choice Specs': item.name = 'Specs'; break;
+				case 'Choice Scarf': item.name = 'Scarfed'; break;
+				case 'Choice Band': item.name = 'Banded'; break;
+				}
 				delete item.species;
 				return item;
 			});
 			console.log(setData);
-			if (setData.length != 0) return { genFormat: genFormat, data: setData };
+			console.log(genFormat);
+			if (setData.length != 0 && setData) return { genFormat: genFormat, data: setData };
 			gen--;
 		}
 		catch (err) {
@@ -44,7 +48,7 @@ const fetchSet = async (pokemon, gen) => {
 		}
 	}
 
-	return {};
+	return { genFormat: 'No Set Data Found', data: 'ERROR' };
 };
 
 const printSet = (set) => {
