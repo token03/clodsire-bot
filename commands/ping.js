@@ -7,11 +7,11 @@ module.exports = {
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
 	async execute(interaction) {
-		const markup = await axios.get('https://play.pokemonshowdown.com/sprites/dex/');
+		const markup = await axios.get('https://play.pokemonshowdown.com/sprites/gen5/');
 		const $ = cheerio.load(markup.data);
 		const parsedTeam = $('a').text().split('.png');
 		parsedTeam.forEach(element => {
-			console.log('`' + element + '`,');
+			if ((element.includes('hisui') || element.includes('galar') && !element.includes('shiny'))) console.log('`' + element + '`,');
 		});
 		console.log(parsedTeam.length);
 		await interaction.reply('Pong!');

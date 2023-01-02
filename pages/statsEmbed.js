@@ -9,25 +9,14 @@ const statsEmbed = async (pokemon, gen) => {
 	pokemon = StringHelper.cleanPokemonName(pokemon);
 	const stats = await fetchStats(pokemon, gen);
 	const embed = new EmbedBuilder()
-		.setTitle('Usage Stats for ' + pokemon + ' in ' + stats.genFormat)
+		.setTitle(pokemon + ' stats in ' + stats.genFormat)
 		.setThumbnail(fetchPokemonSprite(pokemon.toLowerCase(), 'gen5ani'));
 
-	function createField(fieldName, data) {
-		let field = '```';
-		let count = 0;
-		for (const item in data) {
-			if (count < 10) {
-				field += `${item}: ${Math.round(data[item] * 100)}%\n`;
-				count++;
-			}
-		}
-		field += '```';
-		embed.addFields({ name: fieldName, value: field, inline: true });
-	}
-
-	createField('Items', stats.data['items']);
-	createField('Teammates', stats.data['teammates']);
-	createField('Moves', stats.data['moves']);
+	embed.addFields({ name: 'hi', value: 'hi', inline: true });
+	embed.addFields(createField('Moves', stats.data['moves'], true));
+	embed.addFields(createField('Natures', parseSpreads(stats.data['spreads']), true));
+	embed.addFields(createField('Items', stats.data['items'], true));
+	embed.addFields(createField('Teammates', stats.data['teammates'], true));
 
 	return {
 		embeds: [embed],
@@ -45,8 +34,6 @@ const fetchStats = async (pokemon, gen) => {
 		try {
 			const genFormat = Smogon.format(gens.get(gen), pokemon);
 			statsData = await smogon.stats(gens.get(gen), pokemon, genFormat);
-			console.log(statsData);
-			console.log(genFormat);
 			if (statsData) return { genFormat: genFormat, data: statsData };
 			gen--;
 		}
@@ -58,5 +45,43 @@ const fetchStats = async (pokemon, gen) => {
 
 	return { genFormat: 'No Set Data Found', data: 'ERROR' };
 };
+
+function parseSpreads(spreads) {
+	const natureUsage = {};
+	for (const spread in spreads) {
+		const nature = spread.split(':')[0];
+		if (nature in natureUsage) {
+			natureUsage[nature] += spreads[spread];
+		}
+		else {
+			natureUsage[nature] = spreads[spread];
+		}
+	}
+	return natureUsage;
+}
+
+function createField(fieldName, data, inline) {
+	let field = '```';
+	let maxLength = 0;
+	const renamedData = {};
+
+	let i = 0;
+	for (const item in data) {
+		if (i >= 10) break;
+		const renamedItem = StringHelper.limitItemLength(item);
+		renamedData[renamedItem] = data[item];
+		maxLength = Math.max(maxLength, renamedItem.length);
+		i++;
+	}
+
+	for (const item in renamedData) {
+		const padding = ' '.repeat(maxLength - item.length + 1);
+		field += `${item}:${padding}${Math.round(renamedData[item] * 100)}%\n`;
+	}
+
+	field += '```';
+	return ({ name: fieldName, value: field, inline: inline });
+}
+
 
 module.exports = { statsEmbed };

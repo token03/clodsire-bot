@@ -36,6 +36,18 @@ class StringHelper {
 		}
 		return string;
 	}
+
+	static limitItemLength(item) {
+		switch (item) {
+		case 'Heavy-Duty Boots': return 'Heavy-DBoots';
+		}
+		if (item.length > 15 && item.includes('-')) {
+			const words = item.split('-');
+			const abbreviatedWords = words.slice(1).map(word => word[0]);
+			return `${words[0]}-${abbreviatedWords.join('')}`;
+		}
+		return item;
+	}
 }
 
 module.exports = { StringHelper };

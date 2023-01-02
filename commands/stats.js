@@ -26,7 +26,7 @@ module.exports = {
 	async execute(interaction) {
 		let gen = interaction.options.getInteger('gen');
 		if (!gen) gen = 9;
-		const pokemon = interaction.options.getString('pokemon');
+		const pokemon = interaction.options.getString('input');
 		try {
 			const embed = await statsEmbed(pokemon, gen);
 			await interaction.reply(embed);
