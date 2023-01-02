@@ -1,6 +1,6 @@
 const { Dex } = require('@pkmn/dex');
 const { Generations } = require('@pkmn/data');
-const { capitalizeTheFirstLetterOfEachWord } = require('./stringUtils');
+const { StringHelper } = require('./stringUtils');
 const { pokemonNames } = require('../data/module');
 const { Sprites } = require('@pkmn/img');
 const cheerio = require('cheerio');
@@ -50,7 +50,9 @@ const autoCompletePokemon = async (interaction) => {
 	let filtered = choices.filter(choice => choice.startsWith(focusedOption.value.toLowerCase()));
 	filtered = filtered.slice(0, 24);
 	await interaction.respond(
-		filtered.map(choice => ({ name: capitalizeTheFirstLetterOfEachWord(choice), value: capitalizeTheFirstLetterOfEachWord(choice) })),
+		filtered.map(choice => ({
+			name: StringHelper.capitalizeTheFirstLetterOfEachWord(choice),
+			value: StringHelper.capitalizeTheFirstLetterOfEachWord(choice) })),
 	);
 };
 

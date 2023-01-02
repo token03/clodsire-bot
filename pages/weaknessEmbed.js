@@ -1,11 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
 const {
-	fetchTeamWeaknessTable,
-	fetchPokemonWeaknessTable,
 	printTeamWeaknessTable,
 	printPokemonWeaknessTable,
-	capitalizeTheFirstLetterOfEachWord,
-	toLowerReplaceSpaceWithDash,
+	StringHelper,
 	fetchPokemonSprite,
 } = require('../utils/module');
 
@@ -15,16 +12,17 @@ const teamWeaknessEmbed = (json) => {
 		.setTitle('Weakness');
 
 	data.pokemon.forEach((pokemon) => {
+		const pokemonName = StringHelper.cleanPokemonName(pokemon.name);
 		embed.addFields({
-			name: pokemon.name,
-			value: printPokemonWeaknessTable(fetchPokemonWeaknessTable(pokemon.name), pokemon.name),
+			name: pokemonName,
+			value: printPokemonWeaknessTable(pokemonName),
 			inline: true,
 		});
 	});
 
 	embed.addFields({
 		name: 'Team Weaknesses:',
-		value: printTeamWeaknessTable(fetchTeamWeaknessTable(data.pokemon)),
+		value: printTeamWeaknessTable(data.pokemon),
 	});
 
 	return {
@@ -34,14 +32,14 @@ const teamWeaknessEmbed = (json) => {
 };
 
 const pokemonWeaknessEmbed = (pokemon) => {
-	pokemon = capitalizeTheFirstLetterOfEachWord(toLowerReplaceSpaceWithDash(pokemon));
+	pokemon = StringHelper.cleanPokemonName(pokemon);
 	const embed = new EmbedBuilder()
-		.setTitle('Weaknesses for ' + pokemon)
+		.setTitle('Weaknesses')
 		.setThumbnail(fetchPokemonSprite(pokemon.toLowerCase(), 'gen5ani'));
 
 	embed.addFields({
 		name: pokemon,
-		value: printPokemonWeaknessTable(fetchPokemonWeaknessTable(pokemon), pokemon),
+		value: printPokemonWeaknessTable(pokemon),
 		inline: true,
 	});
 

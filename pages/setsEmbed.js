@@ -1,12 +1,12 @@
 const { EmbedBuilder } = require('discord.js');
-const { capitalizeTheFirstLetterOfEachWord, toLowerReplaceSpaceWithDash, fetchPokemonSprite } = require('../utils/module');
+const { StringHelper, fetchPokemonSprite } = require('../utils/module');
 const { Dex } = require('@pkmn/dex');
 const { Generations } = require ('@pkmn/data');
 const { Smogon } = require ('@pkmn/smogon');
 const fetch = require('cross-fetch');
 
 const setsEmbed = async (pokemon, gen) => {
-	pokemon = capitalizeTheFirstLetterOfEachWord(toLowerReplaceSpaceWithDash(pokemon));
+	pokemon = StringHelper.cleanPokemonName(pokemon);
 	const sets = await fetchSet(pokemon, gen);
 	const embed = new EmbedBuilder()
 		.setTitle('Set for ' + pokemon + ' in ' + sets.genFormat)
@@ -79,11 +79,8 @@ function printSet(pokemon) {
 	output += `Item: ${pokemon.item}\n`;
 	if (pokemon.ability) output += `Ability: ${pokemon.ability}\n`;
 	output += 'Moves:\n';
-	for (let i = 0; i < pokemon.moves.length; i++) {
-		if (pokemon.moves[i]) { output += ` - ${pokemon.moves[i]}`; }
-		if ((i + 1) % 2 == 0) output += '\n';
-	}
-	output += `Nature: ${pokemon.nature}\n`;
+	output += StringHelper.createAlignedString(pokemon.moves);
+	output += `\nNature: ${pokemon.nature}\n`;
 	output += 'Evs:\n';
 	for (const [stat, value] of Object.entries(pokemon.evs)) {
 		output += `  ${stat}: ${value}\n`;

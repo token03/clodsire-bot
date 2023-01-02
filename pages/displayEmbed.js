@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { toLowerReplaceSpaceWithDash, toLowerRemoveSpace, returnPokemonType, fetchPokemonSprite } = require('../utils/module');
+const { returnPokemonType, fetchPokemonSprite, StringHelper } = require('../utils/module');
 const { emojiString } = require('../data/module');
 
 const displayEmbed = (json) => {
@@ -7,10 +7,10 @@ const displayEmbed = (json) => {
 	const embeds = [];
 	data.pokemon.forEach((pokemon) => {
 		const embed = new EmbedBuilder()
-			.setImage(fetchPokemonSprite(toLowerReplaceSpaceWithDash(pokemon.name, 6)))
-			.setThumbnail(`https://www.serebii.net/itemdex/sprites/${toLowerRemoveSpace(pokemon.item)}.png`)
+			.setImage(fetchPokemonSprite(StringHelper.toLowerReplaceSpaceWithDash(pokemon.name, 6)))
+			.setThumbnail(`https://www.serebii.net/itemdex/sprites/${StringHelper.toLowerRemoveSpace(pokemon.item)}.png`)
 			.addFields({
-				name: (pokemon.nickname == undefined ? pokemon.name : `${pokemon.nickname} (${pokemon.name})`) + emojiString(returnPokemonType(pokemon)),
+				name: (pokemon.nickname == undefined ? pokemon.name : `${pokemon.nickname} (${pokemon.name})`) + emojiString(returnPokemonType(pokemon.name)),
 				value: pokemonEmbedValue(pokemon),
 			});
 		embeds.push(embed);
@@ -58,9 +58,9 @@ const pokemonEmbedValue = (pokemon) => {
 	}
 
 	if (pokemon.moves) {
-		str += pokemon.moves.map(function(move) {
-			return `**-** ${move}`;
-		}).join('\n') + '\n';
+		console.log(pokemon.moves);
+		str += '```' + StringHelper.createAlignedString(pokemon.moves) + '```';
+		console.log(str);
 	}
 
 	return str;

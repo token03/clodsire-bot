@@ -40,7 +40,8 @@ const fetchTeamWeaknessTable = (team) => {
 	return tableData;
 };
 
-const printTeamWeaknessTable = (table) => {
+const printTeamWeaknessTable = (team) => {
+	const table = fetchTeamWeaknessTable(team);
 	let returnString = '';
 
 	table.forEach(value => {
@@ -94,7 +95,8 @@ const fetchPokemonWeaknessTable = (pokemon) => {
 	return tableData;
 };
 
-const printPokemonWeaknessTable = (table, pokemon) => {
+const printPokemonWeaknessTable = (pokemon) => {
+	const table = fetchPokemonWeaknessTable(pokemon);
 	const t = new Table;
 	const types = returnPokemonType(pokemon);
 
