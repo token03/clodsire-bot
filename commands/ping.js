@@ -11,7 +11,7 @@ module.exports = {
 		const $ = cheerio.load(markup.data);
 		const parsedTeam = $('a').text().split('.png');
 		parsedTeam.forEach(element => {
-			if ((element.includes('hisui') || element.includes('galar') && !element.includes('shiny'))) console.log('`' + element + '`,');
+			if ((element.includes('urshifu') || element.includes('galar') && !element.includes('shiny'))) console.log('`' + element + '`,');
 		});
 		console.log(parsedTeam.length);
 		await interaction.reply('Pong!');

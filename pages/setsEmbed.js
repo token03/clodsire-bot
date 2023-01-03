@@ -1,16 +1,18 @@
 const { EmbedBuilder } = require('discord.js');
-const { StringHelper, fetchPokemonSprite } = require('../utils/module');
+const { StringHelper, fetchPokemonSprite, fetchTypeHex } = require('../utils/module');
 const { Dex } = require('@pkmn/dex');
 const { Generations } = require ('@pkmn/data');
 const { Smogon } = require ('@pkmn/smogon');
 const fetch = require('cross-fetch');
 
 const setsEmbed = async (pokemon, gen) => {
-	pokemon = StringHelper.cleanPokemonName(pokemon);
 	const sets = await fetchSet(pokemon, gen);
 	const embed = new EmbedBuilder()
-		.setTitle('Set for ' + pokemon + ' in ' + sets.genFormat)
-		.setThumbnail(fetchPokemonSprite(pokemon.toLowerCase(), 'gen5ani'));
+		.setTitle('Set for ' + pokemon)
+		.setThumbnail(fetchPokemonSprite(pokemon.toLowerCase(), 'gen5ani'))
+		.setColor(fetchTypeHex(pokemon))
+		.setFooter({ text: sets.genFormat })
+		.setTimestamp();
 
 	if (!sets) {
 		embed.addFields({

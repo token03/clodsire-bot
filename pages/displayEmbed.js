@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { returnPokemonType, fetchPokemonSprite, StringHelper } = require('../utils/module');
+const { returnPokemonType, fetchPokemonSprite, StringHelper, fetchTypeHex } = require('../utils/module');
 const { emojiString } = require('../data/module');
 
 const displayEmbed = (json) => {
@@ -13,6 +13,7 @@ const displayEmbed = (json) => {
 				name: (pokemon.nickname == undefined ? pokemon.name : `${pokemon.nickname} (${pokemon.name})`) + emojiString(returnPokemonType(pokemon.name)),
 				value: pokemonEmbedValue(pokemon),
 			});
+		embed.setColor(fetchTypeHex(pokemon.name));
 		embeds.push(embed);
 	});
 	return {

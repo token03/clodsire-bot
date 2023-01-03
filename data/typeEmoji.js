@@ -19,6 +19,27 @@ const typeEmoji = new Map([
 	['Water', '1048168738324746240'],
 ]);
 
+const typeHex = new Map([
+	['Bug', 0xA6B91A],
+	['Dark', 0x705746],
+	['Dragon', 0x6F35FC],
+	['Electric', 0xF7D02C],
+	['Fairy', 0xD685AD],
+	['Fighting', 0xC22E28],
+	['Fire', 0xEE8130],
+	['Flying', 0xA98FF3],
+	['Ghost', 0x735797],
+	['Grass', 0x7AC74C],
+	['Ground', 0xE2BF65],
+	['Ice', 0x96D9D6],
+	['Normal', 0xA8A77A],
+	['Poison', 0xA33EA1],
+	['Psychic', 0xF95587],
+	['Rock', 0xB6A136],
+	['Steel', 0xB7B7CE],
+	['Water', 0x6390F0],
+]);
+
 const emojiString = (types) => {
 	let returnString = '';
 	types.forEach(type => {
@@ -27,4 +48,4 @@ const emojiString = (types) => {
 	return '\n' + returnString;
 };
 
-module.exports = { typeEmoji, emojiString };
+module.exports = { typeEmoji, emojiString, typeHex };

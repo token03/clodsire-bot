@@ -1,7 +1,7 @@
 const { Dex } = require('@pkmn/dex');
 const { Generations } = require('@pkmn/data');
 const { StringHelper } = require('./stringUtils');
-const { pokemonNames } = require('../data/module');
+const { pokemonNames, typeHex } = require('../data/module');
 const { Sprites } = require('@pkmn/img');
 const cheerio = require('cheerio');
 const axios = require('axios');
@@ -56,10 +56,16 @@ const autoCompletePokemon = async (interaction) => {
 	);
 };
 
+const fetchTypeHex = (pokemon) => {
+	const types = returnPokemonType(pokemon);
+	console.log(types);
+	return typeHex.get(types[0]);
+};
 
 module.exports = {
 	returnPokemonType,
 	autoCompletePokemon,
 	parsePokepaste,
 	fetchPokemonSprite,
+	fetchTypeHex,
 };

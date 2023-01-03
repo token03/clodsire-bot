@@ -4,6 +4,7 @@ const {
 	printPokemonWeaknessTable,
 	StringHelper,
 	fetchPokemonSprite,
+	fetchTypeHex,
 } = require('../utils/module');
 
 const teamWeaknessEmbed = (json) => {
@@ -42,6 +43,8 @@ const pokemonWeaknessEmbed = (pokemon) => {
 		value: printPokemonWeaknessTable(pokemon),
 		inline: true,
 	});
+
+	embed.setColor(fetchTypeHex(pokemon));
 
 	return {
 		embeds: [embed],
