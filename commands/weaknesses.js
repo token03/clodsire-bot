@@ -24,12 +24,10 @@ module.exports = {
 			// Check if the hostname is "pokepast.es"
 			if (url.hostname === 'pokepast.es');
 			const pokepaste = await parsePokepaste(input);
-			console.log(pokepaste.toShowdown());
 			await interaction.reply(teamWeaknessEmbed(pokepaste.toJson()));
 		}
 		catch (error) {
 			// If the string is not a valid URL, return false
-			console.log(input);
 			await interaction.reply(pokemonWeaknessEmbed(input));
 		}
 	},

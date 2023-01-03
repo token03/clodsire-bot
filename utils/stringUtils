@@ -20,10 +20,6 @@ class StringHelper {
 		return separateWord.join('-');
 	}
 
-	static cleanPokemonName(name) {
-		return this.capitalizeFirstLetter(this.toLowerReplaceSpaceWithDash(name));
-	}
-
 	static createAlignedString(moves) {
 		let string = '';
 		const maxLength = Math.max(...moves.map(move => move.length));

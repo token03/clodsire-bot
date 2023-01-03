@@ -1,11 +1,12 @@
 const { EmbedBuilder } = require('discord.js');
-const { StringHelper, fetchPokemonSprite, fetchTypeHex } = require('../utils/module');
+const { StringHelper, fetchPokemonSprite, fetchTypeHex, cleanPokemonName } = require('../utils/module');
 const { Dex } = require('@pkmn/dex');
 const { Generations } = require ('@pkmn/data');
 const { Smogon } = require ('@pkmn/smogon');
 const fetch = require('cross-fetch');
 
 const setsEmbed = async (pokemon, gen) => {
+	pokemon = cleanPokemonName(pokemon);
 	const sets = await fetchSet(pokemon, gen);
 	const embed = new EmbedBuilder()
 		.setTitle('Set for ' + pokemon)
@@ -14,7 +15,7 @@ const setsEmbed = async (pokemon, gen) => {
 		.setFooter({ text: sets.genFormat })
 		.setTimestamp();
 
-	if (!sets) {
+	if (sets.data == 'ERROR') {
 		embed.addFields({
 			name: 'ERROR',
 			value: 'NO SETS FOUND',
@@ -62,8 +63,6 @@ const fetchSet = async (pokemon, gen) => {
 				delete item.species;
 				return item;
 			});
-			console.log(setData);
-			console.log(genFormat);
 			if (setData.length != 0 && setData) return { genFormat: genFormat, data: setData };
 			gen--;
 		}

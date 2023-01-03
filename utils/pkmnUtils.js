@@ -1,10 +1,10 @@
 const { Dex } = require('@pkmn/dex');
-const { Generations } = require('@pkmn/data');
 const { StringHelper } = require('./stringUtils');
 const { pokemonNames, typeHex } = require('../data/module');
 const { Sprites } = require('@pkmn/img');
 const cheerio = require('cheerio');
 const axios = require('axios');
+const trie = require('trie-prefix-tree');
 const { Koffing } = require('koffing');
 
 const parsePokepaste = async (link) => {
@@ -21,17 +21,11 @@ const parsePokepaste = async (link) => {
 };
 
 const returnPokemonType = (pokemon) => {
-	const gens = new Generations(Dex);
-	const trying = true;
-	let gen = 9;
-	while (trying) {
-		try {
-			return gens.get(gen).species.get(pokemon).types;
-		}
-		catch {
-			gen -= 1;
-		}
-	}
+	return Dex.species.get(pokemon).types;
+};
+
+const cleanPokemonName = (pokemon) => {
+	return Dex.species.get(pokemon).name;
 };
 
 const fetchPokemonSprite = (pokemon, gen) => {
@@ -39,26 +33,27 @@ const fetchPokemonSprite = (pokemon, gen) => {
 	return sprite.url;
 };
 
+const pokemonTrie = new trie(pokemonNames);
+
 const autoCompletePokemon = async (interaction) => {
 	const focusedOption = interaction.options.getFocused(true);
-	let choices;
+	const substring = focusedOption.value.toLowerCase();
+	let choices = pokemonTrie.getPrefix(substring);
 
-	if (focusedOption.name === 'input') {
-		choices = pokemonNames;
-	}
+	choices = choices.slice(0, 24);
 
-	let filtered = choices.filter(choice => choice.startsWith(focusedOption.value.toLowerCase()));
-	filtered = filtered.slice(0, 24);
+	console.log(choices);
+
 	await interaction.respond(
-		filtered.map(choice => ({
+		choices.map(choice => ({
 			name: StringHelper.capitalizeTheFirstLetterOfEachWord(choice),
-			value: StringHelper.capitalizeTheFirstLetterOfEachWord(choice) })),
+			value: StringHelper.capitalizeTheFirstLetterOfEachWord(choice),
+		})),
 	);
 };
 
 const fetchTypeHex = (pokemon) => {
 	const types = returnPokemonType(pokemon);
-	console.log(types);
 	return typeHex.get(types[0]);
 };
 
@@ -68,4 +63,5 @@ module.exports = {
 	parsePokepaste,
 	fetchPokemonSprite,
 	fetchTypeHex,
+	cleanPokemonName,
 };

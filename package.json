@@ -24,6 +24,7 @@
     "dotenv": "^16.0.3",
     "easy-table": "^1.2.0",
     "koffing": "^0.4.0",
+    "trie-prefix-tree": "^1.5.1",
     "undici": "^5.13.0"
   },
   "devDependencies": {

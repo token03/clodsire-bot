@@ -1,11 +1,12 @@
 const { EmbedBuilder } = require('discord.js');
-const { StringHelper, fetchPokemonSprite, fetchTypeHex } = require('../utils/module');
+const { StringHelper, fetchPokemonSprite, fetchTypeHex, cleanPokemonName } = require('../utils/module');
 const { Dex } = require('@pkmn/dex');
 const { Generations } = require ('@pkmn/data');
 const { Smogon } = require ('@pkmn/smogon');
 const fetch = require('cross-fetch');
 
 const statsEmbed = async (pokemon, gen) => {
+	pokemon = cleanPokemonName(pokemon);
 	const stats = await fetchStats(pokemon, gen);
 	const embed = new EmbedBuilder()
 		.setTitle('Stats for ' + pokemon)
@@ -14,7 +15,15 @@ const statsEmbed = async (pokemon, gen) => {
 		.setTimestamp()
 		.setColor(fetchTypeHex(pokemon));
 
-	embed.addFields();
+	if (stats.genFormat == 'ERROR') {
+		embed.addFields({ name: 'NO STATS DATA FOUND', value: 'ERROR' });
+		return {
+			embeds: [embed],
+			ephemeral: true,
+		};
+	}
+
+	embed.addFields({ name: 'hi', value: 'hi', inline: true });
 	embed.addFields(createField('Moves', stats.data['moves'], true));
 	embed.addFields(createField('Natures', parseSpreads(stats.data['spreads']), true));
 	embed.addFields(createField('Items', stats.data['items'], true));
@@ -26,6 +35,17 @@ const statsEmbed = async (pokemon, gen) => {
 	};
 };
 
+function mergeLeadUsage(lead, usage) {
+	const mergedObject = {};
+	for (const key in lead) {
+		mergedObject[`${key} lead`] = lead[key];
+	}
+	for (const key in usage) {
+		mergedObject[`${key} usage`] = usage[key];
+	}
+	return mergedObject;
+}
+
 const fetchStats = async (pokemon, gen) => {
 	const gens = new Generations(Dex);
 	const smogon = new Smogon(fetch, true);
@@ -34,6 +54,7 @@ const fetchStats = async (pokemon, gen) => {
 
 	while (looping) {
 		try {
+			if (gen <= 0) looping = false;
 			const genFormat = Smogon.format(gens.get(gen), pokemon);
 			statsData = await smogon.stats(gens.get(gen), pokemon, genFormat);
 			if (statsData) return { genFormat: genFormat, data: statsData };
@@ -44,8 +65,7 @@ const fetchStats = async (pokemon, gen) => {
 			else { looping = false; }
 		}
 	}
-
-	return { genFormat: 'No Set Data Found', data: 'ERROR' };
+	return { genFormat: 'ERROR', data: 'No Stats Data Found' };
 };
 
 function parseSpreads(spreads) {

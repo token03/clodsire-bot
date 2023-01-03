@@ -1300,6 +1300,7 @@ const pokemonNames = [
 	'zorua-hisui',
 	'urshifu',
 	'urshifu-rapid-strike',
+	'urshifu-single-strike',
 	'calyrex',
 	'calyrex-ice',
 	'calyrex-shadow',
@@ -1344,6 +1345,8 @@ const pokemonNames = [
 	'snom',
 	'frosmoth',
 	'indeedee',
+	'basculegion',
+	'basculegion-f',
 ];
 
 module.exports = { pokemonNames };

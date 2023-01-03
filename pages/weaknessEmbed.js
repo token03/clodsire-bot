@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const {
 	printTeamWeaknessTable,
 	printPokemonWeaknessTable,
-	StringHelper,
+	cleanPokemonName,
 	fetchPokemonSprite,
 	fetchTypeHex,
 } = require('../utils/module');
@@ -13,7 +13,7 @@ const teamWeaknessEmbed = (json) => {
 		.setTitle('Weakness');
 
 	data.pokemon.forEach((pokemon) => {
-		const pokemonName = StringHelper.cleanPokemonName(pokemon.name);
+		const pokemonName = cleanPokemonName(pokemon.name);
 		embed.addFields({
 			name: pokemonName,
 			value: printPokemonWeaknessTable(pokemonName),
@@ -33,7 +33,7 @@ const teamWeaknessEmbed = (json) => {
 };
 
 const pokemonWeaknessEmbed = (pokemon) => {
-	pokemon = StringHelper.cleanPokemonName(pokemon);
+	pokemon = cleanPokemonName(pokemon);
 	const embed = new EmbedBuilder()
 		.setTitle('Weaknesses')
 		.setThumbnail(fetchPokemonSprite(pokemon.toLowerCase(), 'gen5ani'));
