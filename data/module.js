@@ -1,4 +1,4 @@
 module.exports = {
-	...require('./typeEmoji'),
+	...require('./typeVisuals'),
 	...require('./pokemonNames'),
 };

@@ -41,9 +41,6 @@ const autoCompletePokemon = async (interaction) => {
 	let choices = pokemonTrie.getPrefix(substring);
 
 	choices = choices.slice(0, 24);
-
-	console.log(choices);
-
 	await interaction.respond(
 		choices.map(choice => ({
 			name: StringHelper.capitalizeTheFirstLetterOfEachWord(choice),
