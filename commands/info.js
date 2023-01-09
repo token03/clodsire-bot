@@ -1,11 +1,11 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { setsEmbed, errorEmbed } = require('../pages/module');
+const { infoEmbed, errorEmbed } = require('../pages/module');
 const { autoCompletePokemon, cleanPokemonName } = require('../utils/module');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('sets')
-		.setDescription('Shows suggested sets for a given Pokemon')
+		.setName('info')
+		.setDescription('Returns basic information regarding a given pokemon')
 		.addStringOption(option =>
 			option
 				.setName('input')
@@ -27,7 +27,7 @@ module.exports = {
 		if (!gen) gen = 9;
 		const pokemon = cleanPokemonName(interaction.options.getString('input'));
 		try {
-			const embed = await setsEmbed(pokemon, gen);
+			const embed = await infoEmbed(pokemon, gen);
 			await interaction.reply(embed);
 		}
 		catch (err) {

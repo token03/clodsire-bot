@@ -5,4 +5,5 @@ module.exports = {
 	...require('./countersEmbed'),
 	...require('./setsEmbed'),
 	...require('./statsEmbed'),
+	...require('./infoEmbed'),
 };

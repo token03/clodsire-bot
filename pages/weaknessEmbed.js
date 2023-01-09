@@ -33,7 +33,6 @@ const teamWeaknessEmbed = (json) => {
 };
 
 const pokemonWeaknessEmbed = (pokemon) => {
-	pokemon = cleanPokemonName(pokemon);
 	const embed = new EmbedBuilder()
 		.setTitle('Weaknesses')
 		.setThumbnail(fetchPokemonSprite(pokemon.toLowerCase(), 'gen5ani'));

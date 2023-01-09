@@ -1,12 +1,11 @@
 const { EmbedBuilder } = require('discord.js');
-const { StringHelper, fetchPokemonSprite, fetchTypeHex, cleanPokemonName } = require('../utils/module');
+const { StringHelper, fetchPokemonSprite, fetchTypeHex } = require('../utils/module');
 const { Dex } = require('@pkmn/dex');
 const { Generations } = require ('@pkmn/data');
 const { Smogon } = require ('@pkmn/smogon');
 const fetch = require('cross-fetch');
 
 const statsEmbed = async (pokemon, gen) => {
-	pokemon = cleanPokemonName(pokemon);
 	const stats = await fetchStats(pokemon, gen);
 	const embed = new EmbedBuilder()
 		.setTitle('Stats for ' + pokemon)

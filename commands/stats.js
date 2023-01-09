@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { statsEmbed, errorEmbed } = require('../pages/module');
-const { autoCompletePokemon } = require('../utils/module');
+const { autoCompletePokemon, cleanPokemonName } = require('../utils/module');
 require('koffing').Koffing;
 
 module.exports = {
@@ -26,7 +26,7 @@ module.exports = {
 	async execute(interaction) {
 		let gen = interaction.options.getInteger('gen');
 		if (!gen) gen = 9;
-		const pokemon = interaction.options.getString('input');
+		const pokemon = cleanPokemonName(interaction.options.getString('input'));
 		try {
 			const embed = await statsEmbed(pokemon, gen);
 			await interaction.reply(embed);

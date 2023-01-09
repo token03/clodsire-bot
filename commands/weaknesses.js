@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { parsePokepaste, autoCompletePokemon } = require('../utils/module');
+const { parsePokepaste, autoCompletePokemon, cleanPokemonName } = require('../utils/module');
 const { teamWeaknessEmbed, pokemonWeaknessEmbed } = require('../pages/module');
 require('koffing').Koffing;
 
@@ -28,7 +28,7 @@ module.exports = {
 		}
 		catch (error) {
 			// If the string is not a valid URL, return false
-			await interaction.reply(pokemonWeaknessEmbed(input));
+			await interaction.reply(pokemonWeaknessEmbed(cleanPokemonName(input)));
 		}
 	},
 };
