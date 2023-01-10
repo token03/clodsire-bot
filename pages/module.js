@@ -6,4 +6,5 @@ module.exports = {
 	...require('./setsEmbed'),
 	...require('./statsEmbed'),
 	...require('./infoEmbed'),
+	...require('./optimizeEmbed'),
 };

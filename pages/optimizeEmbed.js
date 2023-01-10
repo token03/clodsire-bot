@@ -11,7 +11,7 @@ const displayEmbed = (json) => {
 			.setThumbnail(`https://www.serebii.net/itemdex/sprites/${StringHelper.toLowerRemoveSpace(pokemon.item)}.png`)
 			.addFields({
 				name: (pokemon.nickname == undefined ? pokemon.name : `${pokemon.nickname} (${pokemon.name})`) + emojiString(returnPokemonType(pokemon.name)),
-				value: formatDisplayData(pokemon),
+				value: pokemonEmbedValue(pokemon),
 			});
 		embed.setColor(fetchTypeHex(pokemon.name));
 		embeds.push(embed);
@@ -23,46 +23,8 @@ const displayEmbed = (json) => {
 };
 
 
-const formatDisplayData = (pokemon) => {
-	let str = '';
+const pokemonEmbedValue = (pokemon) => {
 
-	if (pokemon.level == undefined) {
-		str += '**Lvl**: 100 // ';
-	}
-	else {
-		str += `**Lvl**: ${pokemon.level} //`;
-	}
-
-	if (pokemon.item) {
-		str += `**Item**: ${pokemon.item}\n`;
-	}
-
-	str += `**Ability**: ${pokemon.ability} // `;
-
-	if (pokemon.nature) {
-		str += `${pokemon.nature} Nature\n`;
-	}
-
-	if (pokemon.evs) {
-		const evs = pokemon.evs;
-		str += '**EVs**: ' + ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']
-			.filter(function(prop) {
-				return !isNaN(evs[prop.toLowerCase()]);
-			})
-			.map(
-				function(prop) {
-					const val = evs[prop.toLowerCase()];
-					return `${val} ${prop}`;
-				},
-			)
-			.join(' / ') + '\n';
-	}
-
-	if (pokemon.moves) {
-		str += '```' + StringHelper.createAlignedString(pokemon.moves) + '```';
-	}
-
-	return str;
 };
 
 module.exports = { displayEmbed };

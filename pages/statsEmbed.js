@@ -22,7 +22,7 @@ const statsEmbed = async (pokemon, gen) => {
 		};
 	}
 
-	embed.addFields({ name: 'hi', value: 'hi', inline: true });
+	embed.addFields(createField('Usage', parseUsageAbility(stats.data), true));
 	embed.addFields(createField('Moves', stats.data['moves'], true));
 	embed.addFields(createField('Natures', parseSpreads(stats.data['spreads']), true));
 	embed.addFields(createField('Items', stats.data['items'], true));
@@ -34,15 +34,11 @@ const statsEmbed = async (pokemon, gen) => {
 	};
 };
 
-function mergeLeadUsage(lead, usage) {
-	const mergedObject = {};
-	for (const key in lead) {
-		mergedObject[`${key} lead`] = lead[key];
-	}
-	for (const key in usage) {
-		mergedObject[`${key} usage`] = usage[key];
-	}
-	return mergedObject;
+function parseUsageAbility(data) {
+	return {
+		usage: data.usage.real,
+		lead: data.lead.real,
+	};
 }
 
 const fetchStats = async (pokemon, gen) => {
