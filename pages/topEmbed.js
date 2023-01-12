@@ -28,8 +28,4 @@ async function fetchMostUsed(format) {
 	return pokemonArray;
 }
 
-const pokemonEmbedValue = (pokemon) => {
-
-};
-
 module.exports = { topEmbed };

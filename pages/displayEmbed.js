@@ -66,7 +66,7 @@ const formatDisplayData = (pokemon) => {
 		// Map the data to a formatted string
 			.map(
 				function(prop) {
-					const val = evs[prop.tolowerCase()];
+					const val = evs[prop.toLowerCase()];
 					return `${val} ${prop}`;
 				},
 			)
