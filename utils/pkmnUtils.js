@@ -1,11 +1,12 @@
 const { Dex } = require('@pkmn/dex');
 const { StringHelper } = require('./stringUtils');
-const { pokemonNames, typeHex } = require('../data/module');
+const { pokemonNames, typeHex, smogonFormats } = require('../data/module');
 const { Sprites } = require('@pkmn/img');
 const cheerio = require('cheerio');
 const axios = require('axios');
 const trie = require('trie-prefix-tree');
 const { Koffing } = require('koffing');
+const { format } = require('prettier');
 
 const parsePokepaste = async (link) => {
 	try {
@@ -34,11 +35,26 @@ const fetchPokemonSprite = (pokemon, gen) => {
 };
 
 const pokemonTrie = new trie(pokemonNames);
+const formatTrie = new trie(smogonFormats);
 
 const autoCompletePokemon = async (interaction) => {
 	const focusedOption = interaction.options.getFocused(true);
 	const substring = focusedOption.value.toLowerCase();
 	let choices = pokemonTrie.getPrefix(substring);
+
+	choices = choices.slice(0, 24);
+	await interaction.respond(
+		choices.map(choice => ({
+			name: StringHelper.capitalizeTheFirstLetterOfEachWord(choice),
+			value: StringHelper.capitalizeTheFirstLetterOfEachWord(choice),
+		})),
+	);
+};
+
+const autoCompleteFormat = async (interaction) => {
+	const focusedOption = interaction.options.getFocused(true);
+	const substring = focusedOption.value.toLowerCase();
+	let choices = formatTrie.getPrefix(substring);
 
 	choices = choices.slice(0, 24);
 	await interaction.respond(

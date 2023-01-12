@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const { returnPokemonType, fetchPokemonSprite, StringHelper, fetchTypeHex } = require('../utils/module');
 const { emojiString } = require('../data/module');
 
-const displayEmbed = (json) => {
+const optimizeEmbed = (json) => {
 	const data = JSON.parse(json).teams[0];
 	const embeds = [];
 	data.pokemon.forEach((pokemon) => {
@@ -24,7 +24,7 @@ const displayEmbed = (json) => {
 
 
 const pokemonEmbedValue = (pokemon) => {
-
+	
 };
 
-module.exports = { displayEmbed };
+module.exports = { optimizeEmbed };

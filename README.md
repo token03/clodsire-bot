@@ -31,6 +31,7 @@ Takes in an input pokepast.es or pokemon and returns the type weaknesses for the
 ```/counters```
 
 Returns a list of popular counters for a given Pokemon in a given generation.
+(Will be deprecating soon)
 
 ### Sets
 ```/sets```
