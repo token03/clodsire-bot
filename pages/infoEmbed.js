@@ -1,30 +1,36 @@
 const { EmbedBuilder } = require('discord.js');
-const { fetchPokemonSprite, fetchTypeHex } = require('../utils/module');
+const { fetchPokemonSprite, fetchTypeHex, returnPokemonType } = require('../utils/module');
+const { emojiString } = require('../data/module');
 const { Dex } = require('@pkmn/dex');
 const { Generations } = require ('@pkmn/data');
 
 const infoEmbed = async (pokemon, gen) => {
 	const info = await fetchInfo(pokemon, gen);
+	const pokemonData = info.data;
+	console.log(pokemonData);
 	const embed = new EmbedBuilder()
-		.setTitle('Info for ' + pokemon)
 		.setThumbnail(fetchPokemonSprite(pokemon.toLowerCase(), 'gen5ani'))
 		.setColor(fetchTypeHex(pokemon))
-		.setFooter({ text: 'Generation ' + info.gen })
-		.setTimestamp();
+		.setFooter({ text: 'Generation ' + gen })
+		.setTimestamp()
+		.setTitle(`${pokemonData.name} (#${pokemonData.num})`)
+		.setDescription(emojiString(returnPokemonType(pokemon)) + '\n```' +
+		'Base Stats: ' + JSON.stringify(pokemonData.baseStats) + '\n' +
+		'BST: ' + pokemonData.bst + '\n' +
+		'Weight: ' + pokemonData.weightkg + 'kg\n' + '```');
+	console.log(pokemonData);
 
-	if (info.data == 'ERROR') {
-		embed.addFields({
-			name: 'ERROR',
-			value: 'NO SETS FOUND',
-			inline: false,
-		});
-		return {
-			embeds: [embed],
-			ephemeral: false,
-		};
-	}
-
-	embed.addFields({ name: 'info', value: printInfo(info.data) });
+	// if (info.data == 'ERROR') {
+	// 	embed.addFields({
+	// 		name: 'ERROR',
+	// 		value: 'NO INFO FOUND',
+	// 		inline: false,
+	// 	});
+	// 	return {
+	// 		embeds: [embed],
+	// 		ephemeral: false,
+	// 	};
+	// }
 
 	return {
 		embeds: [embed],
@@ -53,8 +59,7 @@ const fetchInfo = async (pokemon, gen) => {
 };
 
 function printInfo(pokemon) {
-	console.log(pokemon);
-	return JSON.stringify(pokemon.baseStats) + JSON.stringify(pokemon.types);
+	console.log(pokemon['data']);
 }
 
 module.exports = { infoEmbed };

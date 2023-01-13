@@ -39,27 +39,27 @@ const formatDisplayData = (pokemon) => {
 	// Check if the level property exists
 	if (pokemon.level == undefined) {
 		// If it doesn't, assume the level is 100
-		str += '**Lvl**: 100 // ';
+		str += '**Lvl**: 100\n';
 	}
 	else {
 		// If it does, add it to the string
-		str += `**Lvl**: ${pokemon.level} //`;
+		str += `**Lvl**: ${pokemon.level}\n`;
 	}
 	// Check if the item property exists
 	if (pokemon.item) {
 		str += `**Item**: ${pokemon.item}\n`;
 	}
 	// Add the ability to the string
-	str += `**Ability**: ${pokemon.ability} // `;
+	str += `**Ability**: ${pokemon.ability} \n`;
 	// Check if the nature property exists
 	if (pokemon.nature) {
-		str += `${pokemon.nature} Nature\n`;
+		str += `**Nature: **${pokemon.nature}\n`;
 	}
 	// Check if the evs property exists
 	if (pokemon.evs) {
 		const evs = pokemon.evs;
 		// Filter the evs data to only include valid values
-		str += '**EVs**: ' + ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']
+		str += '**EVs:** ' + ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']
 			.filter(function(prop) {
 				return !isNaN(evs[prop.toLowerCase()]);
 			})
@@ -76,7 +76,7 @@ const formatDisplayData = (pokemon) => {
 	// Check if the moves property exists
 	if (pokemon.moves) {
 		// Add the moves to the string, formatted with line breaks and aligned
-		str += '```' + StringHelper.createAlignedString(pokemon.moves) + '```';
+		str += '**Moves:**\n```' + StringHelper.createAlignedString(pokemon.moves) + '```';
 	}
 	// Return the final string
 	return str;
