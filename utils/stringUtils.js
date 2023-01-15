@@ -20,12 +20,12 @@ class StringHelper {
 		return separateWord.join('-');
 	}
 
-	static createAlignedString(moves) {
+	static createAlignedString(array) {
 		let string = '';
-		const maxLength = Math.max(...moves.map(move => move.length));
-		for (let i = 0; i < moves.length; i++) {
-			const move = moves[i];
-			string += '-' + move + ' '.repeat(maxLength - move.length + 1);
+		const maxLength = Math.max(...array.map(element => element.length));
+		for (let i = 0; i < array.length; i++) {
+			const element = array[i];
+			string += '-' + element + ' '.repeat(maxLength - element.length + 1);
 			if (i === 1) {
 				string += '\n';
 			}
