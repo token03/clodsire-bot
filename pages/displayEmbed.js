@@ -13,9 +13,9 @@ const displayEmbed = (json) => {
 		// Create a new embed builder for each pokemon
 		const embed = new EmbedBuilder()
 		// Use the pokemon name to fetch the sprite and set it as the image
-			.setImage(fetchPokemonSprite(StringHelper.toLowerReplaceSpaceWithDash(pokemon.name), 6))
+			.setThumbnail(fetchPokemonSprite(StringHelper.toLowerReplaceSpaceWithDash(pokemon.name), 6))
 		// Fetch the item sprite and set it as the thumbnail
-			.setThumbnail(`https://www.serebii.net/itemdex/sprites/${StringHelper.toLowerRemoveSpace(pokemon.item)}.png`)
+			.setImage(`https://www.serebii.net/itemdex/sprites/${StringHelper.toLowerRemoveSpace(pokemon.item)}.png`)
 		// Add a field with the pokemon name, nickname (if it exists) and formatted data
 			.addFields({
 				name: (pokemon.nickname == undefined ? pokemon.name : `${pokemon.nickname} (${pokemon.name})`) + emojiString(returnPokemonType(pokemon.name)),
@@ -39,27 +39,23 @@ const formatDisplayData = (pokemon) => {
 	// Check if the level property exists
 	if (pokemon.level == undefined) {
 		// If it doesn't, assume the level is 100
-		str += '**Lvl**: 100\n';
+		str += '**Lvl**: `100`\n';
 	}
 	else {
 		// If it does, add it to the string
-		str += `**Lvl**: ${pokemon.level}\n`;
-	}
-	// Check if the item property exists
-	if (pokemon.item) {
-		str += `**Item**: ${pokemon.item}\n`;
+		str += `**Lvl**: \`${pokemon.level}\`\n`;
 	}
 	// Add the ability to the string
-	str += `**Ability**: ${pokemon.ability} \n`;
+	str += `**Ability**: \`${pokemon.ability}\`\n`;
 	// Check if the nature property exists
 	if (pokemon.nature) {
-		str += `**Nature: **${pokemon.nature}\n`;
+		str += `**Nature:** \`${pokemon.nature}\`\n`;
 	}
 	// Check if the evs property exists
 	if (pokemon.evs) {
 		const evs = pokemon.evs;
 		// Filter the evs data to only include valid values
-		str += '**EVs:** ' + ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']
+		str += '`' + ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']
 			.filter(function(prop) {
 				return !isNaN(evs[prop.toLowerCase()]);
 			})
@@ -71,12 +67,16 @@ const formatDisplayData = (pokemon) => {
 				},
 			)
 		// Join the mapped data with a separator
-			.join(' / ') + '\n';
+			.join(' / ') + '`\n';
 	}
 	// Check if the moves property exists
 	if (pokemon.moves) {
 		// Add the moves to the string, formatted with line breaks and aligned
-		str += '**Moves:**\n```' + StringHelper.createAlignedString(pokemon.moves) + '```';
+		str += '**Moves:**\n`' + StringHelper.createAlignedString(pokemon.moves) + '`\n';
+	}
+	// Check if the item property exists
+	if (pokemon.item) {
+		str += `**Item**: \`${pokemon.item}\`\n`;
 	}
 	// Return the final string
 	return str;
