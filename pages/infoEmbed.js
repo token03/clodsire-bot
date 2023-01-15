@@ -13,10 +13,12 @@ const infoEmbed = async (pokemon, gen) => {
 		.setColor(fetchTypeHex(pokemon))
 		.setFooter({ text: 'Generation ' + gen })
 		.setTimestamp()
-		.setTitle(`${pokemonData.name} (#${pokemonData.num})`)
+		.setTitle(`${pokemonData.name} #${pokemonData.num}`)
 		.setDescription(emojiString(returnPokemonType(pokemon)) + '\n```' +
+		'Generation: ' + pokemonData.gen + '\n' +
 		'Base Stats: ' + JSON.stringify(pokemonData.baseStats) + '\n' +
 		'BST: ' + pokemonData.bst + '\n' +
+		'Abilities: ' + JSON.stringify(Object.values(pokemonData.abilities)) + '\n' +
 		'Weight: ' + pokemonData.weightkg + 'kg\n' + '```');
 	console.log(pokemonData);
 

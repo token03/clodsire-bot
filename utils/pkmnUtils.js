@@ -4,12 +4,11 @@ const { pokemonNames, typeHex, smogonFormats } = require('../data/module');
 const { Sprites } = require('@pkmn/img');
 const cheerio = require('cheerio');
 const axios = require('axios');
-const trie = require('trie-prefix-tree');
 const Fuse = require('fuse.js');
 const { Koffing } = require('koffing');
 
-const pokemonTrie = new trie(pokemonNames);
-const formatTrie = new trie(smogonFormats);
+const pokemonFuse = new Fuse(pokemonNames, { threshold: 0.25 });
+const formatFuse = new Fuse(smogonFormats, { threshold: 0.25 });
 
 const parsePokepaste = async (link) => {
 	// attempts to get the markup of the provided link, parse it using cheerio, and extract the team data using Koffing
@@ -35,10 +34,10 @@ const cleanPokemonName = (nameString) => {
 	// checks if the nameString is valid, if so, returns the name
 	let pokemon = Dex.species.get(nameString);
 	if (pokemon.exists) return pokemon.name;
-	// else fuzzy matches the top result (that isn't mega)
-	const fuse = new Fuse(pokemonNames, { includeScore: true });
-	const result = fuse.search(nameString).slice(0, 2);
-	(result[0]['item'].includes('mega')) ? pokemon = Dex.species.get(result[1]['item']) : pokemon = Dex.species.get(result[0]['item']);
+	// else fuzzy matches the top result
+	const result = pokemonFuse.search(nameString).slice(0, 2);
+	//  if string doesn't include 'mega' don't index the mega.
+	(result[0]['item'].includes('mega') && !nameString.includes('mega')) ? pokemon = Dex.species.get(result[1]['item']) : pokemon = Dex.species.get(result[0]['item']);
 	return pokemon.name;
 };
 
@@ -52,8 +51,9 @@ const autoCompletePokemon = async (interaction) => {
 	// gets the focused option and substring, finds all the choices that match the substring and respond with them
 	const focusedOption = interaction.options.getFocused(true);
 	const substring = focusedOption.value.toLowerCase();
-	let choices = pokemonTrie.getPrefix(substring);
-
+	let choices = pokemonFuse.search(substring).map(choice => {
+		return choice.item;
+	});
 	choices = choices.slice(0, 24);
 	await interaction.respond(
 		choices.map(choice => ({
@@ -67,8 +67,9 @@ const autoCompleteFormat = async (interaction) => {
 	// gets the focused option and substring, finds all the choices that match the substring and respond with them
 	const focusedOption = interaction.options.getFocused(true);
 	const substring = focusedOption.value.toLowerCase();
-	let choices = formatTrie.getPrefix(substring);
-
+	let choices = formatFuse.search(substring).map(choice => {
+		return choice.item;
+	});
 	choices = choices.slice(0, 24);
 	await interaction.respond(
 		choices.map(choice => ({

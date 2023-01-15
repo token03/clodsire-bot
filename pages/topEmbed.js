@@ -23,7 +23,7 @@ async function fetchMostUsed(format) {
 	const pokemonArray = [];
 
 	for (let i = 0; i < 30; i++) {
-		pokemonArray.push(Object.entries(data.pokemon)[i]);
+		pokemonArray.push(Object.keys(data.pokemon)[i]);
 	}
 	return pokemonArray;
 }

@@ -22,11 +22,11 @@ const statsEmbed = async (pokemon, gen) => {
 		};
 	}
 
-	embed.addFields(createField('Usage', parseUsageAbility(stats.data), true));
-	embed.addFields(createField('Moves', stats.data['moves'], true));
-	embed.addFields(createField('Natures', parseSpreads(stats.data['spreads']), true));
-	embed.addFields(createField('Items', stats.data['items'], true));
-	embed.addFields(createField('Teammates', stats.data['teammates'], true));
+	embed.addFields(createField('Usage:', parseUsageAbility(stats.data), true));
+	embed.addFields(createField('Moves:', stats.data['moves'], true));
+	embed.addFields(createField('Natures:', parseSpreads(stats.data['spreads']), true));
+	embed.addFields(createField('Items:', stats.data['items'], true));
+	embed.addFields(createField('Teammates:', stats.data['teammates'], true));
 
 	return {
 		embeds: [embed],
