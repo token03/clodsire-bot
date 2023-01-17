@@ -7,7 +7,7 @@ const optimizeEmbed = (json) => {
 	const embeds = [];
 	data.pokemon.forEach((pokemon) => {
 		const embed = new EmbedBuilder()
-			.setImage(fetchPokemonSprite(StringHelper.toLowerReplaceSpaceWithDash(pokemon.name), 6))
+			.setImage(fetchPokemonSprite(pokemon.name, 6))
 			.setThumbnail(`https://www.serebii.net/itemdex/sprites/${StringHelper.toLowerRemoveSpace(pokemon.item)}.png`)
 			.addFields({
 				name: (pokemon.nickname == undefined ? pokemon.name : `${pokemon.nickname} (${pokemon.name})`) + emojiString(returnPokemonType(pokemon.name)),

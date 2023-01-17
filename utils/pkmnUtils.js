@@ -7,8 +7,8 @@ const axios = require('axios');
 const Fuse = require('fuse.js');
 const { Koffing } = require('koffing');
 
-const pokemonFuse = new Fuse(pokemonNames, { threshold: 0.25 });
-const formatFuse = new Fuse(smogonFormats, { threshold: 0.25 });
+const pokemonFuse = new Fuse(pokemonNames, { threshold: 0.4 });
+const formatFuse = new Fuse(smogonFormats, { threshold: 0.4 });
 
 const parsePokepaste = async (link) => {
 	// attempts to get the markup of the provided link, parse it using cheerio, and extract the team data using Koffing
@@ -20,13 +20,11 @@ const parsePokepaste = async (link) => {
 		return Koffing.parse(parsedTeam);
 	}
 	catch (err) {
-		// if an error occurs, throws an error with a message
 		throw new Error('Invalid Link Given' + err);
 	}
 };
 
 const returnPokemonType = (pokemon) => {
-	// returns the types of the given pokemon from the pokemon's dex entry
 	return Dex.species.get(pokemon).types;
 };
 
@@ -42,13 +40,11 @@ const cleanPokemonName = (nameString) => {
 };
 
 const fetchPokemonSprite = (pokemon, gen) => {
-	// returns the sprite url of the given pokemon and generation
 	const sprite = Sprites.getPokemon(pokemon, { gen: gen });
 	return sprite.url;
 };
 
 const autoCompletePokemon = async (interaction) => {
-	// gets the focused option and substring, finds all the choices that match the substring and respond with them
 	const focusedOption = interaction.options.getFocused(true);
 	const substring = focusedOption.value.toLowerCase();
 	let choices = pokemonFuse.search(substring).map(choice => {
@@ -64,7 +60,6 @@ const autoCompletePokemon = async (interaction) => {
 };
 
 const autoCompleteFormat = async (interaction) => {
-	// gets the focused option and substring, finds all the choices that match the substring and respond with them
 	const focusedOption = interaction.options.getFocused(true);
 	const substring = focusedOption.value.toLowerCase();
 	let choices = formatFuse.search(substring).map(choice => {
@@ -80,7 +75,6 @@ const autoCompleteFormat = async (interaction) => {
 };
 
 const fetchTypeHex = (pokemon) => {
-	// returns the hex code of the first type of the given pokemon
 	const types = returnPokemonType(pokemon);
 	return typeHex.get(types[0]);
 };
