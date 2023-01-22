@@ -14,36 +14,55 @@ a discord bot for analyzing Pokemon teams based on the usage statistics and typi
 * [Counters](#counters)
 * [Sets](#sets)
 * [Stats](#stats)
+* [Top](#top)
+* [Info](#info)
 
 ### Display
 ```/display```
-<img src="https://cdn.discordapp.com/attachments/1058967188297490472/1059354743937454080/image.png" 
-alt="clodsire-bot" border="0"> <br>
 Takes in an input pokepast.es and returns a visual display for each Pokemon.
+
+<img src = "./assets/display.png" width=350>
 
 ### Weaknesses
 ```/weaknesses```
-<img src="https://cdn.discordapp.com/attachments/1058967188297490472/1059353688264691754/image.png" 
-alt="clodsire-bot" border="0"> <br>
+
 Takes in an input pokepast.es or pokemon and returns the type weaknesses for the team and/or individual pokemon(s)
+
+<img src="./assets/pokemonWeakness.png" 
+alt="clodsire-bot" border="0" width=300>
+
 
 ### Counters
 ```/counters```
 
-Returns a list of popular counters for a given Pokemon in a given generation.
-(Will be deprecating soon)
+[REMOVING]
 
 ### Sets
 ```/sets```
-<img src="https://cdn.discordapp.com/attachments/1058967188297490472/1059354271906267196/image.png" 
-alt="clodsire-bot" border="0"> <br>
+
 Returns a list of possible sets for a given Pokemon.
+
+<img src="./assets/sets.png" 
+alt="clodsire-bot" border="0" width=300> <br>
 
 ### Stats
 ```/stats```
-<img src="https://cdn.discordapp.com/attachments/1058967188297490472/1059353754618568745/image.png" 
-alt="clodsire-bot" border="0"> <br>
+
 Returns a list of possible sets for a given Pokemon.
+
+<img src="./assets/stats.png" 
+alt="clodsire-bot" border="0" width=400> <br>
+
+### Top
+```/top```
+
+Returns the top 30 most used mons in a give generation and format
+
+<img src="./assets/top.png" 
+alt="clodsire-bot" border="0" width=400> <br>
+
+### Info
+```/info```
 
 ## Todo
 

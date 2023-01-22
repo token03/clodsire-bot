@@ -3,6 +3,7 @@ const { fetchPokemonSprite, fetchTypeHex, returnPokemonType } = require('../util
 const { emojiString } = require('../data/module');
 const { Dex } = require('@pkmn/dex');
 const { Generations } = require ('@pkmn/data');
+const Table = require('easy-table');
 
 const infoEmbed = async (pokemon, gen) => {
 	const info = await fetchInfo(pokemon, gen);
@@ -16,11 +17,9 @@ const infoEmbed = async (pokemon, gen) => {
 		.setTitle(`${pokemonData.name} #${pokemonData.num}`)
 		.setDescription(emojiString(returnPokemonType(pokemon)) + '\n```' +
 		'Generation: ' + pokemonData.gen + '\n' +
-		'Base Stats: ' + JSON.stringify(pokemonData.baseStats) + '\n' +
-		'BST: ' + pokemonData.bst + '\n' +
 		'Abilities: ' + JSON.stringify(Object.values(pokemonData.abilities)) + '\n' +
-		'Weight: ' + pokemonData.weightkg + 'kg\n' + '```');
-	console.log(pokemonData);
+		'Weight: ' + pokemonData.weightkg + 'kg\n\n' +
+		formatStats(pokemonData.baseStats, pokemonData.bst) + '```');
 
 	// if (info.data == 'ERROR') {
 	// 	embed.addFields({
@@ -58,6 +57,19 @@ const fetchInfo = async (pokemon, gen) => {
 	}
 
 	return { gen: 'this is really bad', data: 'why did this happen' };
+};
+
+const formatStats = (stats, bst) => {
+	const t = new Table();
+	t.cell('HP', stats.hp);
+	t.cell('Atk', stats.atk);
+	t.cell('Def', stats.def);
+	t.cell('SpA', stats.spa);
+	t.cell('SpD', stats.spd);
+	t.cell('Spe', stats.spe);
+	t.newRow();
+
+	return t.toString() + 'BST: ' + bst;
 };
 
 function printInfo(pokemon) {
