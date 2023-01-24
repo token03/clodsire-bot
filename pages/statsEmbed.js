@@ -22,13 +22,17 @@ const statsEmbed = async (pokemon, gen) => {
 		};
 	}
 
-	embed.setDescription('```' + `Raw: ${(stats.data.usage.raw * 100).toFixed(2)}% | Real: ${(stats.data.usage.real * 100).toFixed(2)}% | Weighted: ${(stats.data.usage.weighted * 100).toFixed(2)}%` + '```');
+	embed.addFields({ name: 'Usage',
+		value: '```' + `Raw: ${(stats.data.usage.raw * 100).toFixed(2)}% | Real: ${(stats.data.usage.real * 100).toFixed(2)}% | Weighted: ${(stats.data.usage.weighted * 100).toFixed(2)}%` + '```' });
+
+	embed.addFields({ name:'Natures: ',
+		value: '```' + top3Natures(stats.data.spreads) + '```' });
 
 	embed.addFields(createField('Moves:', stats.data.moves, true));
 	embed.addFields(createField('Items:', stats.data.items, true));
 	embed.addFields({ name: '\u200b', value: '\u200b', inline: true });
+	embed.addFields(createField('Spreads:', parseSpreads(stats.data.spreads), true));
 	embed.addFields(createField('Teammates:', stats.data.teammates, true));
-	embed.addFields(createField('Natures:', parseSpreads(stats.data.spreads), true));
 	if (Object.keys(stats.data.counters).length != 0) {
 		embed.addFields({ name: 'Counters:', value: '```' +
 		Object.keys(stats.data.counters).toString().split(',').join(', ') + '```' });
@@ -39,6 +43,23 @@ const statsEmbed = async (pokemon, gen) => {
 		ephemeral: false,
 	};
 };
+
+function top3Natures(spreads) {
+	let natureUsage = {};
+	for (const spread in spreads) {
+		const [nature] = spread.split(':');
+		if (!natureUsage[nature]) natureUsage[nature] = 0;
+		natureUsage[nature] += spreads[spread];
+	}
+
+	natureUsage = Object.entries(natureUsage)
+		.sort((a, b) => b[1] - a[1])
+		.slice(0, 3)
+		.map(nature => `${nature[0]}: ${(nature[1] * 100).toFixed(2)}%`)
+		.join(' | ');
+
+	return natureUsage;
+}
 
 const fetchStats = async (pokemon, gen) => {
 	const gens = new Generations(Dex);
@@ -63,19 +84,22 @@ const fetchStats = async (pokemon, gen) => {
 };
 
 function parseSpreads(spreads) {
-	const natureUsage = {};
+	let spreadUsage = {};
 	for (const spread in spreads) {
-		const nature = spread.split(':')[0];
-		if (nature in natureUsage) {
-			natureUsage[nature] += spreads[spread];
-		}
-		else {
-			natureUsage[nature] = spreads[spread];
-		}
+		const [nature, ...nums] = spread.split(':');
+		const numsKey = nums.join(':');
+		if (!spreadUsage[numsKey]) spreadUsage[numsKey] = 0;
+		spreadUsage[numsKey] += spreads[spread];
 	}
-	return natureUsage;
-}
 
+	spreadUsage = Object.entries(spreadUsage)
+		.sort((a, b) => b[1] - a[1])
+		.reduce((acc, [key, value]) => {
+			acc[key] = value;
+			return acc;
+		}, {});
+	return spreadUsage;
+}
 function createField(fieldName, data, inline) {
 	let field = '```';
 	let maxLength = 0;
