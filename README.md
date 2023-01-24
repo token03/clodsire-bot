@@ -6,12 +6,31 @@
 
 <img src="https://cdn.discordapp.com/attachments/912584888148975666/1047806076315254884/image.png" 
 alt="clodsire-bot" border="0"> <br>
-a discord bot for analyzing Pokemon teams based on the usage statistics and typing coverages
+a pokemon-oriented discord bot with an emphasis on pokemon showdown.
+
+## Setup
+1. Download and install [Node.js](https://nodejs.org/en/) Version 18.12.1 or higher
+2. Open the ```example.env``` file and rename it to ```.env```
+    - Fill in the required tokens and IDs
+3. Install required and optional dependecies
+```sh
+$ npm install
+```
+4. You should be able to now run the bot using:
+```sh
+$ npm run deployandstart
+```
+
+
+
+
+## Features
+* Automatically accounts for spelling mistakes and abreviating of Pokemon names
+* Automatically updated with the most recent usage data sourced from https://pkmn.github.io/smogon/data/
 
 ## Commands
 * [Display](#display)
 * [Weaknesses](#weaknesses)
-* [Counters](#counters)
 * [Sets](#sets)
 * [Stats](#stats)
 * [Top](#top)
@@ -30,12 +49,6 @@ Takes in an input pokepast.es or pokemon and returns the type weaknesses for the
 
 <img src="./assets/pokemonWeakness.png" 
 alt="clodsire-bot" border="0" width=300>
-
-
-### Counters
-```/counters```
-
-[REMOVING]
 
 ### Sets
 ```/sets```
