@@ -38,6 +38,7 @@ $ npm run deployandstart
 
 ### Display
 ```/display```
+
 Takes in an input pokepast.es and returns a visual display for each Pokemon.
 
 <img src = "./assets/display.png" width=350>
@@ -49,6 +50,10 @@ Takes in an input pokepast.es or pokemon and returns the type weaknesses for the
 
 <img src="./assets/pokemonWeakness.png" 
 alt="clodsire-bot" border="0" width=300>
+
+<img src="./assets/teamWeakness.png" 
+alt="clodsire-bot" border="0" width=350>
+
 
 ### Sets
 ```/sets```
