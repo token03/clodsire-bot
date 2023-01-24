@@ -22,24 +22,23 @@ const statsEmbed = async (pokemon, gen) => {
 		};
 	}
 
-	embed.addFields(createField('Usage:', parseUsageAbility(stats.data), true));
-	embed.addFields(createField('Moves:', stats.data['moves'], true));
-	embed.addFields(createField('Natures:', parseSpreads(stats.data['spreads']), true));
-	embed.addFields(createField('Items:', stats.data['items'], true));
-	embed.addFields(createField('Teammates:', stats.data['teammates'], true));
+	embed.setDescription('```' + `Raw: ${(stats.data.usage.raw * 100).toFixed(2)}% | Real: ${(stats.data.usage.real * 100).toFixed(2)}% | Weighted: ${(stats.data.usage.weighted * 100).toFixed(2)}%` + '```');
+
+	embed.addFields(createField('Moves:', stats.data.moves, true));
+	embed.addFields(createField('Items:', stats.data.items, true));
+	embed.addFields({ name: '\u200b', value: '\u200b', inline: true });
+	embed.addFields(createField('Teammates:', stats.data.teammates, true));
+	embed.addFields(createField('Natures:', parseSpreads(stats.data.spreads), true));
+	if (Object.keys(stats.data.counters).length != 0) {
+		embed.addFields({ name: 'Counters:', value: '```' +
+		Object.keys(stats.data.counters).toString().split(',').join(', ') + '```' });
+	}
 
 	return {
 		embeds: [embed],
 		ephemeral: false,
 	};
 };
-
-function parseUsageAbility(data) {
-	return {
-		usage: data.usage.real,
-		lead: data.lead.real,
-	};
-}
 
 const fetchStats = async (pokemon, gen) => {
 	const gens = new Generations(Dex);
