@@ -36,6 +36,7 @@ class StringHelper {
 	static limitItemLength(item) {
 		switch (item) {
 		case 'Heavy-Duty Boots': return 'Heavy-DBoots';
+		case 'Weakness Policy': return 'Wkns Policy';
 		}
 		if (item.length > 15 && item.includes('-')) {
 			const words = item.split('-');

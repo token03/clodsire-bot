@@ -52,7 +52,7 @@ Takes in an input pokepast.es or pokemon and returns the type weaknesses for the
 alt="clodsire-bot" border="0" width=300>
 
 <img src="./assets/teamWeakness.png" 
-alt="clodsire-bot" border="0" width=350>
+alt="clodsire-bot" border="0" width=35 0>
 
 
 ### Sets

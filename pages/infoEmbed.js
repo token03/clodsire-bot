@@ -17,8 +17,8 @@ const infoEmbed = async (pokemon, gen) => {
 		.setTitle(`${pokemonData.name} #${pokemonData.num}`)
 		.setDescription(emojiString(returnPokemonType(pokemon)) + '\n```' +
 		'Generation: ' + pokemonData.gen + '\n' +
-		'Abilities: ' + JSON.stringify(Object.values(pokemonData.abilities)) + '\n' +
-		'Weight: ' + pokemonData.weightkg + 'kg\n\n' +
+		'Weight: ' + pokemonData.weightkg + 'kg\n' +
+		'Abilities: \n ' + Object.values(pokemonData.abilities).join(', ') + '\n\n' +
 		formatStats(pokemonData.baseStats, pokemonData.bst) + '```');
 
 	// if (info.data == 'ERROR') {
@@ -67,9 +67,10 @@ const formatStats = (stats, bst) => {
 	t.cell('SpA', stats.spa);
 	t.cell('SpD', stats.spd);
 	t.cell('Spe', stats.spe);
+	t.cell('BST', bst);
 	t.newRow();
 
-	return t.toString() + 'BST: ' + bst;
+	return t.toString();
 };
 
 function printInfo(pokemon) {

@@ -24,7 +24,7 @@ const optimizeEmbed = (json) => {
 
 
 const pokemonEmbedValue = (pokemon) => {
-	
+
 };
 
 module.exports = { optimizeEmbed };

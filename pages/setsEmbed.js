@@ -32,7 +32,7 @@ const setsEmbed = async (pokemon, gen) => {
 			{
 				name: name,
 				value: '```' + printSet(set) + '```',
-				inline: false,
+				inline: true,
 			});
 	});
 

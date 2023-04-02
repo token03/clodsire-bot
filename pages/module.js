@@ -1,8 +1,8 @@
 module.exports = {
 	...require('./errorEmbed'),
+	...require('./setsEmbed'),
 	...require('./displayEmbed'),
 	...require('./weaknessEmbed'),
-	...require('./setsEmbed'),
 	...require('./statsEmbed'),
 	...require('./infoEmbed'),
 	...require('./optimizeEmbed'),

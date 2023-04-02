@@ -8,7 +8,7 @@ const Fuse = require('fuse.js');
 const { Koffing } = require('koffing');
 
 const pokemonFuse = new Fuse(pokemonNames, { threshold: 0.4 });
-const formatFuse = new Fuse(smogonFormats, { threshold: 0.4 });
+const formatFuse = new Fuse(smogonFormats, { threshold: 0.6 });
 
 const parsePokepaste = async (link) => {
 	// attempts to get the markup of the provided link, parse it using cheerio, and extract the team data using Koffing
@@ -66,12 +66,19 @@ const autoCompleteFormat = async (interaction) => {
 		return choice.item;
 	});
 	choices = choices.slice(0, 24);
+	console.log(choices);
 	await interaction.respond(
 		choices.map(choice => ({
 			name: choice,
 			value: choice,
 		})),
 	);
+};
+
+const cleanFormat = (format) => {
+	return formatFuse.search(format).map(choice => {
+		return choice.item;
+	})[0];
 };
 
 const fetchTypeHex = (pokemon) => {
@@ -87,4 +94,5 @@ module.exports = {
 	fetchTypeHex,
 	cleanPokemonName,
 	autoCompleteFormat,
+	cleanFormat,
 };

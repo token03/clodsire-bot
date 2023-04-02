@@ -28,11 +28,11 @@ const statsEmbed = async (pokemon, gen) => {
 	embed.addFields({ name:'Natures: ',
 		value: '```' + top3Natures(stats.data.spreads) + '```' });
 
-	embed.addFields(createField('Moves:', stats.data.moves, true));
-	embed.addFields(createField('Items:', stats.data.items, true));
+	embed.addFields(createField('Moves:', stats.data.moves, true, 8));
+	embed.addFields(createField('Teammates:', stats.data.teammates, true, 8));
 	embed.addFields({ name: '\u200b', value: '\u200b', inline: true });
-	embed.addFields(createField('Spreads:', parseSpreads(stats.data.spreads), true));
-	embed.addFields(createField('Teammates:', stats.data.teammates, true));
+	embed.addFields(createField('Spreads:', parseSpreads(stats.data.spreads), true, 5));
+	embed.addFields(createField('Items:', stats.data.items, true, 5));
 	if (Object.keys(stats.data.counters).length != 0) {
 		embed.addFields({ name: 'Counters:', value: '```' +
 		Object.keys(stats.data.counters).toString().split(',').join(', ') + '```' });
@@ -100,14 +100,14 @@ function parseSpreads(spreads) {
 		}, {});
 	return spreadUsage;
 }
-function createField(fieldName, data, inline) {
+function createField(fieldName, data, inline, cutoff) {
 	let field = '```';
 	let maxLength = 0;
 	const renamedData = {};
 
 	let i = 0;
 	for (const item in data) {
-		if (i >= 10) break;
+		if (i >= cutoff) break;
 		const renamedItem = StringHelper.limitItemLength(item);
 		renamedData[renamedItem] = data[item];
 		maxLength = Math.max(maxLength, renamedItem.length);
