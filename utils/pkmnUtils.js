@@ -86,6 +86,28 @@ const fetchTypeHex = (pokemon) => {
 	return typeHex.get(types[0]);
 };
 
+const classifyPokemon = (evs, nature) => {
+	const statNames = ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe'];
+	const evStats = statNames.map((stat) => ({ stat, value: evs[stat.toLowerCase()] || 0 }));
+
+	evStats.sort((a, b) => b.value - a.value);
+
+	const topStats = evStats.slice(0, 2).map((statObj) => statObj.stat).sort();
+
+	const classificationLookup = {
+		'AtkSpe': 'Fast Physical Attacker',
+		'SpASpe': 'Fast Special Attacker',
+		'HPSpD': 'Special Wall',
+		'HPDef': 'Physical Walll',
+	};
+
+	const classificationKey = topStats.join('');
+	const classification = classificationLookup[classificationKey] || 'Mixed';
+
+	return classification;
+};
+
+
 module.exports = {
 	returnPokemonType,
 	autoCompletePokemon,
@@ -95,4 +117,5 @@ module.exports = {
 	cleanPokemonName,
 	autoCompleteFormat,
 	cleanFormat,
+	classifyPokemon,
 };

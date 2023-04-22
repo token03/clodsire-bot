@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { returnPokemonType, fetchPokemonSprite, StringHelper, fetchTypeHex } = require('../utils/module');
+const { returnPokemonType, fetchPokemonSprite, StringHelper, fetchTypeHex, cleanPokemonName, classifyPokemon } = require('../utils/module');
 const { emojiString } = require('../data/module');
 
 
@@ -7,6 +7,7 @@ const displayEmbed = (json) => {
 	const data = JSON.parse(json).teams[0];
 	const embeds = [];
 	data.pokemon.forEach((pokemon) => {
+		pokemon.name = cleanPokemonName(pokemon.name);
 		const embed = new EmbedBuilder()
 			.setThumbnail(fetchPokemonSprite(pokemon.name, 6))
 			.setImage(`https://www.serebii.net/itemdex/sprites/${StringHelper.toLowerRemoveSpace(pokemon.item)}.png`)
@@ -22,6 +23,7 @@ const displayEmbed = (json) => {
 		ephemeral: false,
 	};
 };
+
 
 const formatDisplayData = (pokemon) => {
 	let str = '';
@@ -48,6 +50,9 @@ const formatDisplayData = (pokemon) => {
 				},
 			)
 			.join(' / ') + '`\n';
+
+		const classification = classifyPokemon(evs, pokemon.nature);
+		str += `\`Classification: ${classification}\`\n`;
 	}
 	if (pokemon.moves) {
 		str += '`' + StringHelper.createAlignedString(pokemon.moves) + '`\n';
