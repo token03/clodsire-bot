@@ -1,6 +1,9 @@
 const { EmbedBuilder } = require('discord.js');
 const { returnPokemonType, fetchPokemonSprite, StringHelper, fetchTypeHex } = require('../utils/module');
 const { emojiString } = require('../data/module');
+const { Dex } = require('@pkmn/dex');
+const { Generations } = require ('@pkmn/data');
+const { Smogon } = require ('@pkmn/smogon');
 
 const optimizeEmbed = (json) => {
 	const data = JSON.parse(json).teams[0];
@@ -25,6 +28,28 @@ const optimizeEmbed = (json) => {
 
 const pokemonEmbedValue = (pokemon) => {
 
+};
+
+const fetchCounters = async (pokemon, gen) => {
+	const gens = new Generations(Dex);
+	const smogon = new Smogon(fetch, true);
+	let statsData;
+	let looping = true;
+
+	while (looping) {
+		try {
+			if (gen <= 0) looping = false;
+			const genFormat = Smogon.format(gens.get(gen), pokemon);
+			statsData = await smogon.stats(gens.get(gen), pokemon, genFormat);
+			if (statsData) return { genFormat: genFormat, data: statsData };
+			gen--;
+		}
+		catch (err) {
+			if (gen > 0) { gen--; }
+			else { looping = false; }
+		}
+	}
+	return { genFormat: 'ERROR', data: 'No Stats Data Found' };
 };
 
 module.exports = { optimizeEmbed };

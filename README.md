@@ -2,7 +2,7 @@
     <img alt="[Clodsire]" src="https://editors.dexerto.com/wp-content/uploads/2022/11/13/clodsire-and-wooper-1024x576.jpg">
 </p>
 
-# Clodsire Bot (Work in Progress)
+# Clodsire Bot 
 
 <img src="https://cdn.discordapp.com/attachments/912584888148975666/1047806076315254884/image.png" 
 alt="clodsire-bot" border="0"> <br>
@@ -82,11 +82,5 @@ alt="clodsire-bot" border="0" width=400> <br>
 ### Info
 ```/info```
 
-## Todo
-
--   [x] Print out a visual for a given team
--   [x] Displays typing weaknesses and strengths for a team
--   [ ] Displays meta threats based on usage rates
--   [ ] Suggests possible improvements for a team (mons, moves, etc.)
 
 

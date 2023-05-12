@@ -100,6 +100,7 @@ function parseSpreads(spreads) {
 		}, {});
 	return spreadUsage;
 }
+
 function createField(fieldName, data, inline, cutoff) {
 	let field = '```';
 	let maxLength = 0;

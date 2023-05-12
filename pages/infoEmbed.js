@@ -21,18 +21,6 @@ const infoEmbed = async (pokemon, gen) => {
 		'Abilities: \n ' + Object.values(pokemonData.abilities).join(', ') + '\n\n' +
 		formatStats(pokemonData.baseStats, pokemonData.bst) + '```');
 
-	// if (info.data == 'ERROR') {
-	// 	embed.addFields({
-	// 		name: 'ERROR',
-	// 		value: 'NO INFO FOUND',
-	// 		inline: false,
-	// 	});
-	// 	return {
-	// 		embeds: [embed],
-	// 		ephemeral: false,
-	// 	};
-	// }
-
 	return {
 		embeds: [embed],
 		ephemeral: false,
