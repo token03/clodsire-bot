@@ -31,8 +31,8 @@ const setsEmbed = async (pokemon, gen) => {
 		embed.addFields(
 			{
 				name: name,
-				value: '```' + printSet(set) + '```',
-				inline: true,
+				value: '```' + printSet(pokemon, set) + '```',
+				inline: false,
 			});
 	});
 
@@ -73,16 +73,26 @@ const fetchSet = async (pokemon, gen) => {
 	return { genFormat: 'No Set Data Found', data: 'ERROR' };
 };
 
-function printSet(pokemon) {
+function printSet(name, pokemon) {
+	// console.log(pokemon);
 	let output = '';
-	output += `Item: ${pokemon.item}\n`;
+	output += `${name} @ ${pokemon.item}\n`;
 	if (pokemon.ability) output += `Ability: ${pokemon.ability}\n`;
-	output += 'Moves:\n';
-	output += StringHelper.createAlignedString(pokemon.moves);
-	output += `\nNature: ${pokemon.nature}\n`;
-	output += 'Evs:\n';
-	for (const [stat, value] of Object.entries(pokemon.evs)) {
-		output += `  ${stat}: ${value}\n`;
+	if (pokemon.ability) output += `Tera Type: ${pokemon.teraType}\n`;
+	if (pokemon.type) output += `Type: ${pokemon.type}\n`;
+	if (pokemon.evs) {
+		output += 'EVs: ';
+		const evList = [];
+		for (const [stat, value] of Object.entries(pokemon.evs)) {
+			evList.push(`${value} ${stat}`);
+		}
+		output += evList.join(' / ');
+		output += '\n';
+	}
+	output += `${pokemon.nature} Nature\n`;
+
+	for (const move of pokemon.moves) {
+		output += `• ${move}\n`;
 	}
 	return output;
 }
